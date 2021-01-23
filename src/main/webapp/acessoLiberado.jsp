@@ -1,4 +1,4 @@
-<jsp:useBean id="calcula" class="bens.BeanCursoJsp" type="bens.BeanCursoJsp" scope="page"/>
+<jsp:useBean id="calcula" class="bens.UsuarioBean" type="bens.UsuarioBean" scope="page"/>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -9,6 +9,9 @@
 <h1>Acesso liberado para seu Usuario</h1>
 <h2>Seja benvindo ao Sistema JSP</h2>
 
+<br/>
+
+<a href="cadastroUsuario.jsp">Cadastro de Usuário --></a>
 </body>
 
 </html>

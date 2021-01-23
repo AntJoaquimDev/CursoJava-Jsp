@@ -1,6 +1,6 @@
 package bens;
 
-public class BeanCursoJsp {
+public class UsuarioBean {
 
     private String login;
     private String senha;
@@ -20,11 +20,5 @@ public class BeanCursoJsp {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    public boolean validarLoginSenha(String login, String senha){
-        if(login.equalsIgnoreCase("admin") && senha.equalsIgnoreCase("admin")){
-            return true;
-        }else{
-            return false;
-        }
-    }
+
 }

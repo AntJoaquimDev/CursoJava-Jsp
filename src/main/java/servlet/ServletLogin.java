@@ -1,6 +1,6 @@
 package servlet;
 
-import bens.BeanCursoJsp;
+import bens.UsuarioBean;
 import dao.DaoLogin;
 
 import javax.servlet.*;
@@ -21,7 +21,7 @@ public class ServletLogin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
        try {
-           BeanCursoJsp beanCursoJsp = new BeanCursoJsp();
+           UsuarioBean usuarioBean = new UsuarioBean();
            String login =(request.getParameter("login"));
            String senha =(request.getParameter("senha"));
            if(daoLogin.validarLogin(login,senha)){ // acesso liberado

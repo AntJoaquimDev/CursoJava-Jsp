@@ -1,4 +1,4 @@
-<jsp:useBean id="calcula" class="bens.BeanCursoJsp" type="bens.BeanCursoJsp" scope="page"/>
+<jsp:useBean id="calcula" class="bens.UsuarioBean" type="bens.UsuarioBean" scope="page"/>
 
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="ISO-8859-1" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -18,7 +18,7 @@
     <input type="text" id="login" name="login">
     <br/>
     Senha:
-    <input type="text" id="senha" name="senha">
+    <input type="password" id="senha" name="senha">
     <br>
     <input type="submit" value="Logar">
 
