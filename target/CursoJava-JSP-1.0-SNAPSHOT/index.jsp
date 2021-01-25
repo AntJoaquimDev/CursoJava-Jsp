@@ -9,7 +9,7 @@
 <head>
     <title>JSP - Basico de JSP</title>
 </head>
-<body style="background: aqua">
+<body >
 <H1> Exercios de Treinos Jsp</H1>
 
 <form action="Servlet-Login" method="post">

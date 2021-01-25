@@ -43,11 +43,12 @@ public class DaoUsuario {
     public List<UsuarioBean> listar() throws SQLException {
         List<UsuarioBean> listar = new ArrayList<UsuarioBean>();
 
-        String sql = "select *from usuario";
+        String sql = "select * from usuario";
         PreparedStatement statement = connection.prepareStatement(sql);
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
             UsuarioBean usuarioBean = new UsuarioBean();
+            usuarioBean.setId(resultSet.getLong("id"));
             usuarioBean.setLogin(resultSet.getString("login"));
             usuarioBean.setSenha(resultSet.getString("senha"));
             listar.add(usuarioBean);
@@ -55,4 +56,59 @@ public class DaoUsuario {
         return listar;
     }
 
+    public void delete(String login) {
+
+        try {
+            String sql = "delete from usuario where login = '" + login + "'";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.execute();
+            connection.commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
+    public UsuarioBean consultar(String login) throws SQLException {
+        String sql = "select * from usuario where login = '"+ login + "'";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+
+                UsuarioBean usuarioBean = new UsuarioBean();
+                usuarioBean.setId(resultSet.getLong("id"));
+                usuarioBean.setLogin(resultSet.getString("login"));
+                usuarioBean.setSenha(resultSet.getString("senha"));
+                return usuarioBean;
+            }
+
+        return null;
+    }
+
+    public void atualizar(UsuarioBean usuarioBean) {
+
+        try {
+            String  sql ="update usuario set login = ?, senha = ? where id = "+ usuarioBean.getId();
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,usuarioBean.getLogin());
+            preparedStatement.setString(2, usuarioBean.getSenha());
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 }

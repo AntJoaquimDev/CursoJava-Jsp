@@ -4,7 +4,7 @@
 <head>
     <title>recebendo nome</title>
 </head>
-<body style="background: chartreuse">
+<body >
 
 <h1>Acesso liberado para seu Usuario</h1>
 <h2>Seja benvindo ao Sistema JSP</h2>

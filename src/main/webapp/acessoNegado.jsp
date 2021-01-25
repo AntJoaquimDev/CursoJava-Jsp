@@ -4,7 +4,7 @@
 <head>
     <title>recebendo nome</title>
 </head>
-<body style="background: chartreuse">
+<body >
 
 <h1>Acesso Negado para seu Usuario</h1>
 

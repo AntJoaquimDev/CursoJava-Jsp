@@ -1,9 +1,17 @@
 package bens;
 
 public class UsuarioBean {
-
+    private long id;
     private String login;
     private String senha;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getLogin() {
         return login;
