@@ -19,13 +19,14 @@ public class DaoUsuario {
 
     public void salvar(UsuarioBean usuario) {
 
-        String sql = "insert into usuario(login,senha) values(?,?)";
+        String sql = "insert into usuario(login,senha,nome) values(?,?,?)";
 
         PreparedStatement insert = null;
         try {
             insert = connection.prepareStatement(sql);
             insert.setString(1, usuario.getLogin());
             insert.setString(2, usuario.getSenha());
+            insert.setString(3, usuario.getNome());
             insert.execute();
             connection.commit();
 
@@ -43,12 +44,13 @@ public class DaoUsuario {
     public List<UsuarioBean> listar() throws SQLException {
         List<UsuarioBean> listar = new ArrayList<UsuarioBean>();
 
-        String sql = "select * from usuario";
+        String sql = "select *from usuario";
         PreparedStatement statement = connection.prepareStatement(sql);
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
             UsuarioBean usuarioBean = new UsuarioBean();
             usuarioBean.setId(resultSet.getLong("id"));
+            usuarioBean.setNome(resultSet.getString("nome"));
             usuarioBean.setLogin(resultSet.getString("login"));
             usuarioBean.setSenha(resultSet.getString("senha"));
             listar.add(usuarioBean);
@@ -56,10 +58,10 @@ public class DaoUsuario {
         return listar;
     }
 
-    public void delete(String login) {
+    public void delete(String id) {
 
         try {
-            String sql = "delete from usuario where login = '" + login + "'";
+            String sql = "delete from usuario where id = '" + id + "'";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.execute();
             connection.commit();
@@ -74,8 +76,8 @@ public class DaoUsuario {
         }
     }
 
-    public UsuarioBean consultar(String login) throws SQLException {
-        String sql = "select * from usuario where login = '"+ login + "'";
+    public UsuarioBean consultar(String id) throws SQLException {
+        String sql = "select * from usuario where id = '"+ id + "'";
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -83,6 +85,7 @@ public class DaoUsuario {
 
                 UsuarioBean usuarioBean = new UsuarioBean();
                 usuarioBean.setId(resultSet.getLong("id"));
+                usuarioBean.setNome(resultSet.getString("nome"));
                 usuarioBean.setLogin(resultSet.getString("login"));
                 usuarioBean.setSenha(resultSet.getString("senha"));
                 return usuarioBean;
@@ -94,11 +97,13 @@ public class DaoUsuario {
     public void atualizar(UsuarioBean usuarioBean) {
 
         try {
-            String  sql ="update usuario set login = ?, senha = ? where id = "+ usuarioBean.getId();
+            String  sql ="update usuario set nome = ?,login = ?, senha = ?  where id = "+ usuarioBean.getId();
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,usuarioBean.getLogin());
-            preparedStatement.setString(2, usuarioBean.getSenha());
+            preparedStatement.setString(1,usuarioBean.getNome());
+            preparedStatement.setString(2,usuarioBean.getLogin());
+            preparedStatement.setString(3, usuarioBean.getSenha());
+
             preparedStatement.executeUpdate();
             connection.commit();
         } catch (SQLException throwables) {

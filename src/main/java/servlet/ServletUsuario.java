@@ -45,17 +45,18 @@ public class ServletUsuario extends HttpServlet {
     }
 
 
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
 
         String id = request.getParameter("id");
+        String nome = request.getParameter("nome");
         String login = request.getParameter("login");
         String senha = request.getParameter("senha");
 
         UsuarioBean usuarioBean = new UsuarioBean();
         usuarioBean.setId(!id.isEmpty()?Long.parseLong(id):0);
+        usuarioBean.setNome(nome);
         usuarioBean.setLogin(login);
         usuarioBean.setSenha(senha);
 
