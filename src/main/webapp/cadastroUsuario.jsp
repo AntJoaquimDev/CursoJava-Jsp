@@ -14,9 +14,12 @@
     <title>Cadastro de Usuário</title>
 </head>
 <body>
-<h1>Formulário Cadastro de Usuario</h1>
+<center><h1>Formulário Cadastro de Usuario</h1></center>
 <div class="login-page">
     <div class="form">
+
+            <h3 style="color: #EF3B3A">${msg} </h3>
+
         <form action="salvarUsuario" method="post" id="formeUser">
             <ul class="form-style-1">
                 <li>

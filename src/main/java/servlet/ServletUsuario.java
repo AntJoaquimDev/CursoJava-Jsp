@@ -74,10 +74,17 @@ public class ServletUsuario extends HttpServlet {
             usuarioBean.setLogin(login);
             usuarioBean.setSenha(senha);
 
-            if (id == null || id.isEmpty()) {
-                daoUsuario.salvar(usuarioBean);
-            } else {
-                daoUsuario.atualizar(usuarioBean);
+            try {
+                if(id == null || id.isEmpty() && !daoUsuario.validarLogin(login)){
+                    request.setAttribute("msg","[ERRO!] Login já está Cadastrado no Sistema");
+                }
+                if (id == null || id.isEmpty() && daoUsuario.validarLogin(login)) {
+                    daoUsuario.salvar(usuarioBean);
+                } else {
+                    daoUsuario.atualizar(usuarioBean);
+                }
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
             System.out.println("usuario salvo no banco");
 
