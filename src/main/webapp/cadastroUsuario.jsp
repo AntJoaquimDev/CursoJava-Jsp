@@ -17,7 +17,7 @@
 <h1>Formulário Cadastro de Usuario</h1>
 <div class="login-page">
     <div class="form">
-        <form action="salvarUsuario" method="post">
+        <form action="salvarUsuario" method="post" id="formeUser">
             <ul class="form-style-1">
                 <li>
                     <table>
@@ -42,7 +42,9 @@
                         </tr>
                         <tr>
                             <td></td>
-                            <td><input type="submit" value="Salvar "></td>
+                            <td><input type="submit" value="Salvar ">
+                                <input type="submit" value="Cancelar " onclick="document.getElementById('formeUser')
+         .action = 'salvarUsuario?reset'"></td>
                         </tr>
                     </table>
 
@@ -54,7 +56,7 @@
 <table class="w3-table-all">
 
     <thead>
-    <caption>Usuários cadastrados no Sistema</caption>
+    <caption><h2>Usuários cadastrados no Sistema</h2></caption>
     <tr class="w3-green">
         <th>Codigo</th>
         <th>Nome</th>
@@ -68,14 +70,16 @@
     <c:forEach items="${usuarios}" var="user">
 
         <tr>
-            <td ><c:out value="${user.id}"></c:out></td>
-            <td ><c:out value="${user.nome}"></c:out></td>
-            <td ><c:out value="${user.login}"></c:out></td>
-            <td ><c:out value="${user.senha}"></c:out></td>
+            <td><c:out value="${user.id}"></c:out></td>
+            <td><c:out value="${user.nome}"></c:out></td>
+            <td><c:out value="${user.login}"></c:out></td>
+            <td><c:out value="${user.senha}"></c:out></td>
 
 
-            <td><a href="salvarUsuario?acao=delete&user=${user.id}">Excluir</a></td>
-            <td><a href="salvarUsuario?acao=editar&user=${user.id}">Editar</a></td>
+            <td><a href="salvarUsuario?acao=delete&user=${user.id}">
+                <img src="img/delete.png" alt="Excluir" width="20px" height="20px" title="Excluir"/></a></td>
+            <td><a href="salvarUsuario?acao=editar&user=${user.id}">
+                <img src="img/editar.png" alt="Editar" width="20px" height="20px" title="Editar"/></a></td>
         </tr>
     </c:forEach>
 

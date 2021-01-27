@@ -5,6 +5,7 @@
 
 <!DOCTYPE >
 <link rel="stylesheet" href="css/estiloTelaLogin.css"/>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <html>
 
 <head>
@@ -19,10 +20,13 @@
 <div class="login-page">
     <div class="form">
         <form action="Servlet-Login" method="post" class="login-form">
-            Login:<input type="text" id="login" name="login">
+            <ul class="form-style-1">
 
-            Senha:<input type="password" id="senha" name="senha">
+            Login<input type="text" id="login" name="login" class="login-page">
+
+            Senha<input type="password" id="senha" name="senha" class="login-page">
             <button type="submit" value="Logar">LOGAR</button>
+                </ul>
         </form>
     </div>
 </div>

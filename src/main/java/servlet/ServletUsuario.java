@@ -29,14 +29,17 @@ public class ServletUsuario extends HttpServlet {
                 request.setAttribute("usuarios", daoUsuario.listar());
                 view.forward(request, response); // --> para fazer o redirecionamento na tela ficar na mesma tela cadastro
 
-            }
-            else if (acao.equalsIgnoreCase("editar")) {
-                UsuarioBean usuarioBean = daoUsuario.consultar(user); // consulta usuario para deletar, passando o objeto
+            } else if (acao.equalsIgnoreCase("editar")) {
 
+                UsuarioBean usuarioBean = daoUsuario.consultar(user); // consulta usuario para deletar, passando o objeto
                 RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
                 request.setAttribute("user", usuarioBean);
                 view.forward(request, response); // -->
 
+            } else if (acao.equalsIgnoreCase("listarTodos")) {
+                RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
+                request.setAttribute("usuarios", daoUsuario.listar());
+                view.forward(request, response); // --> para fazer o redirecionamento na tela ficar na mesma tela cadastro
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -49,33 +52,45 @@ public class ServletUsuario extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
 
-        String id = request.getParameter("id");
-        String nome = request.getParameter("nome");
-        String login = request.getParameter("login");
-        String senha = request.getParameter("senha");
+        String acao = request.getParameter("acao");
+        if (acao != null && acao.equalsIgnoreCase("reset")) {
+            try {
+                RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
+                request.setAttribute("usuarios", daoUsuario.listar());
+                view.forward(request, response); // --> para fazer o redirecionamento na tela ficar na mesma tela cadastro
 
-        UsuarioBean usuarioBean = new UsuarioBean();
-        usuarioBean.setId(!id.isEmpty()?Long.parseLong(id):0);
-        usuarioBean.setNome(nome);
-        usuarioBean.setLogin(login);
-        usuarioBean.setSenha(senha);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            String id = request.getParameter("id");
+            String nome = request.getParameter("nome");
+            String login = request.getParameter("login");
+            String senha = request.getParameter("senha");
 
-       if(id== null || id.isEmpty()){
-           daoUsuario.salvar(usuarioBean);
-       }else{
-           daoUsuario.atualizar(usuarioBean);
-       }
-        System.out.println("usuario salvo no banco");
+            UsuarioBean usuarioBean = new UsuarioBean();
+            usuarioBean.setId(!id.isEmpty() ? Long.parseLong(id) : 0);
+            usuarioBean.setNome(nome);
+            usuarioBean.setLogin(login);
+            usuarioBean.setSenha(senha);
 
-        //para mandar resultadao da pesquisa para mesma tela de cadastro
-        try {
-            RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
-            request.setAttribute("usuarios", daoUsuario.listar());
+            if (id == null || id.isEmpty()) {
+                daoUsuario.salvar(usuarioBean);
+            } else {
+                daoUsuario.atualizar(usuarioBean);
+            }
+            System.out.println("usuario salvo no banco");
 
-            view.forward(request, response); // --> para fazer o redirecionamento na tela ficar na mesma tela cadastro
-        } catch (SQLException e) {
-            e.printStackTrace();
+            //para mandar resultadao da pesquisa para mesma tela de cadastro
+            try {
+                RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
+                request.setAttribute("usuarios", daoUsuario.listar());
+
+                view.forward(request, response); // --> para fazer o redirecionamento na tela ficar na mesma tela cadastro
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         }
-
     }
 }
