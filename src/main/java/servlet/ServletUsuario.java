@@ -25,9 +25,11 @@ public class ServletUsuario extends HttpServlet {
         try {
             if (acao.equalsIgnoreCase("delete")) {
                 daoUsuario.delete(user);
+                request.setAttribute("msg2","Cadastro Deletado!.");
                 RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
                 request.setAttribute("usuarios", daoUsuario.listar());
                 view.forward(request, response); // --> para fazer o redirecionamento na tela ficar na mesma tela cadastro
+
 
             } else if (acao.equalsIgnoreCase("editar")) {
 
@@ -52,7 +54,9 @@ public class ServletUsuario extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
 
+
         String acao = request.getParameter("acao");
+
         if (acao != null && acao.equalsIgnoreCase("reset")) {
             try {
                 RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
@@ -67,27 +71,53 @@ public class ServletUsuario extends HttpServlet {
             String nome = request.getParameter("nome");
             String login = request.getParameter("login");
             String senha = request.getParameter("senha");
+            String telefone = request.getParameter("telefone");
+
 
             UsuarioBean usuarioBean = new UsuarioBean();
-            usuarioBean.setId(!id.isEmpty() ? Long.parseLong(id) : 0);
+            usuarioBean.setId(!id.isEmpty() ? Long.parseLong(id) :0);
             usuarioBean.setNome(nome);
             usuarioBean.setLogin(login);
             usuarioBean.setSenha(senha);
+            usuarioBean.setTelefone(telefone);
 
-            try {
+            try {//inserir msg na tela
+                String msg =null;
+                boolean podeInserir = true;
+                if(id == null ){
+
+                }
                 if(id == null || id.isEmpty() && !daoUsuario.validarLogin(login)){
-                    request.setAttribute("msg","[ERRO!] Login já está Cadastrado no Sistema");
+                   // request.setAttribute("msg","[ERRO!] Login ou SEnha. já está Cadastrado no Sistema");
+                    msg = "A senha já existe para outro usuário!";
+                    podeInserir = true;
+                }else if (id == null || id.isEmpty() && !daoUsuario.validarSenha(senha)) {// QUANDO FOR USUÁRIO NOVO
+                    msg = "A senha já existe para outro usuário!";
+                    podeInserir = false;
                 }
-                if (id == null || id.isEmpty() && daoUsuario.validarLogin(login)) {
+                if (msg != null) {
+                    request.setAttribute("msg", msg);
+                }
+
+                if (id == null || id.isEmpty() && daoUsuario.validarLogin(login)
+                        && daoUsuario.validarSenha(senha) && podeInserir) {
+                    request.setAttribute("msg2","Cadastro Salvo com Sucesso!.");
                     daoUsuario.salvar(usuarioBean);
-                } else {
+
+                } else if(id!= null && !id.isEmpty() && podeInserir){
                     daoUsuario.atualizar(usuarioBean);
+                    request.setAttribute("msg2","Cadastro Atualizado!.");
                 }
+                if (!podeInserir){
+                    request.setAttribute("user", usuarioBean);
+                }
+
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
             System.out.println("usuario salvo no banco");
 
+                //rever a aula 18.46
             //para mandar resultadao da pesquisa para mesma tela de cadastro
             try {
                 RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");

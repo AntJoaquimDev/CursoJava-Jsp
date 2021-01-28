@@ -11,8 +11,11 @@
 <h2>Seja benvindo ao Sistema JSP</h2>
 
 <br/>
-
-<a href="salvarUsuario?acao=listarTodos">Cadastro de Usuário --></a>
+<tr>
+<a href="salvarUsuario?acao=listarTodos">
+<img src="img/user.png" alt="Editar" width="120px" height="120px" title="Cadastro de Usuário -->"/>
+</a>
+</tr>
 </body>
 
 </html>

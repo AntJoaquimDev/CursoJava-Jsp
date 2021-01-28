@@ -22,8 +22,12 @@
         <form action="Servlet-Login" method="post" class="login-form">
             <ul class="form-style-1">
 
-            Login<input type="text" id="login" name="login" class="login-page">
+                <img src="img/user.png" alt="Editar" width="20px" height="20px"
+                     title="usuário -->"/>
+            Login<input type="text" id="login" name="login" class="login-page"  >
 
+                <img src="img/cadeado.png" alt="Editar" width="20px" height="20px"
+                     title="usuário -->"/>
             Senha<input type="password" id="senha" name="senha" class="login-page">
             <button type="submit" value="Logar">LOGAR</button>
                 </ul>

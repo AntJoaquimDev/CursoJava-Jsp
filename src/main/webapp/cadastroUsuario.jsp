@@ -14,15 +14,16 @@
     <title>Cadastro de Usuário</title>
 </head>
 <body>
-<center><h1>Formulário Cadastro de Usuario</h1></center>
-<div class="login-page">
+<center><h1>Cadastro de Usuário</h1></center>
+<center><div class="login-page">
     <div class="form">
 
-            <h3 style="color: #EF3B3A">${msg} </h3>
+        <h3 style="color: #ea100f">${msg} </h3>
+        <h3 style="color: #29ee09">${msg2} </h3>
 
         <form action="salvarUsuario" method="post" id="formeUser">
             <ul class="form-style-1">
-                <li>
+
                     <table>
                         <tr>
                             <td>Codigo:</td>
@@ -31,6 +32,11 @@
                         <tr>
                             <td>Nome:</td>
                             <td><input type="text" id="nome" name="nome" value="${user.nome}" class="field-long">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Telefone:</td>
+                            <td><input type="text" id="telefone" name="telefone" value="${user.telefone}" class="field-long">
                             </td>
                         </tr>
                         <tr>
@@ -43,6 +49,7 @@
                             <td><input type="password" id="senha" name="senha" value="${user.senha}" class="field-long">
                             </td>
                         </tr>
+
                         <tr>
                             <td></td>
                             <td><input type="submit" value="Salvar ">
@@ -51,11 +58,11 @@
                         </tr>
                     </table>
 
-                </li>
+
             </ul>
         </form>
     </div>
-</div>
+</div></center>
 <table class="w3-table-all">
 
     <thead>
@@ -63,8 +70,10 @@
     <tr class="w3-green">
         <th>Codigo</th>
         <th>Nome</th>
+        <th>Telefone</th>
         <th>Login</th>
         <th>Senha</th>
+
         <th>Excluir Usuário</th>
         <th>Editar Usuário</th>
     </tr>
@@ -74,7 +83,13 @@
 
         <tr>
             <td><c:out value="${user.id}"></c:out></td>
-            <td><c:out value="${user.nome}"></c:out></td>
+
+            <td><img src="img/user.png" alt="Editar" width="20px" height="20px"
+                     title="usuário -->"/>  <c:out value="${user.nome}"></c:out>  </td>
+
+            <td><img src="fone.png" alt="Editar" width="20px" height="20px"
+                     title="Telefone"/>  <c:out value="${user.telefone}"></c:out>  </td>
+
             <td><c:out value="${user.login}"></c:out></td>
             <td><c:out value="${user.senha}"></c:out></td>
 
