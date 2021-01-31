@@ -13,11 +13,11 @@ import java.util.List;
 public class DaoUsuario {
     private Connection connection;
 
-    public  DaoUsuario() {
+    public DaoUsuario() {
         connection = SingleConnection.getConnection();
     }
 
-    public  void salvar(UsuarioBean usuario) {
+    public void salvar(UsuarioBean usuario) {
 
         String sql = "insert into usuario(nome,login,senha,telefone) values(?,?,?,?)";
 
@@ -100,7 +100,7 @@ public class DaoUsuario {
     public void atualizar(UsuarioBean usuarioBean) {
 
         try {
-            String sql = "update usuario set nome = ?,login = ?, senha = ? ,telefone ? where id = " + usuarioBean.getId();
+            String sql = "update usuario set nome = ?,login = ?, senha = ? ,telefone= ? where id = " + usuarioBean.getId();
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, usuarioBean.getNome());
@@ -118,7 +118,6 @@ public class DaoUsuario {
                 e.printStackTrace();
             }
         }
-
     }
 
     public boolean validarLogin(String login) throws SQLException {
@@ -130,6 +129,7 @@ public class DaoUsuario {
         }
         return false;
     }
+
     public boolean validarSenha(String senha) throws SQLException {
         String sql = "select count(1) as qtd from usuario where senha = '" + senha + "'";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -141,7 +141,7 @@ public class DaoUsuario {
     }
 
 
-    /*
+   /*
     public void ValidarInserir(String nome,String login,String senha){
         if(nome == null || nome.isEmpty() || login == null || login.isEmpty() || senha == null || senha.isEmpty()){
 String sql = "select count(1) as qtd from usuario where login = '" + login + "' and id <> " + id;

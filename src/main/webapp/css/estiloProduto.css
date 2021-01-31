@@ -1,0 +1,13 @@
+.form-style-1 label{
+    margin: 0 0 3px 0;
+    padding: 0px;
+    display: block;
+    font-width: bold;
+}
+.form-style-1 input[type=text],
+.form-style-1 input[type=password],
+.form-style-1 input[type=button]
+
+form-style-1 input[type=text]:focus,
+.form-style-1 input[type=password]:focus,
+.form-style-1 input[type=button]:focus

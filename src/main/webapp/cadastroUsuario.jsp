@@ -87,7 +87,7 @@
             <td><img src="img/user.png" alt="Editar" width="20px" height="20px"
                      title="usuário -->"/>  <c:out value="${user.nome}"></c:out>  </td>
 
-            <td><img src="fone.png" alt="Editar" width="20px" height="20px"
+            <td><img src="img/fone.png" alt="Editar" width="20px" height="20px"
                      title="Telefone"/>  <c:out value="${user.telefone}"></c:out>  </td>
 
             <td><c:out value="${user.login}"></c:out></td>
