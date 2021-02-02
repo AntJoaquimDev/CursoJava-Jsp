@@ -67,36 +67,39 @@ public class ServletProduto extends HttpServlet {
                 e.printStackTrace();
             }
         } else {
-            /*
-            if(id == null || nome.isEmpty() || qtd.isEmpty()|| valor.isEmpty()) {
-                    msg = "[ERRO!]Login e Senha devem Ser informados";
-                    request.setAttribute("msg", msg);
-                }else
-             */
+            String msg = null;
+            boolean podeInserir = true;
             String id = request.getParameter("id");
             String nome = request.getParameter("nome");
             String qtd = request.getParameter("qtd");
             String valor = request.getParameter("valor");
 
-
             ProdutoBean produtoBean = new ProdutoBean();
-
             produtoBean.setId(!id.isEmpty() ? Long.parseLong(id) : null);
             produtoBean.setNome(nome);
-            produtoBean.setQtd(Double.parseDouble(qtd));
-            produtoBean.setValor(Double.parseDouble(valor));
+            produtoBean.setQtd(!qtd.isEmpty() ? Double.parseDouble(qtd): 0);
+            produtoBean.setValor(!valor.isEmpty() ? Double.parseDouble(valor):0);
             try {
-                String msg = null;
-                boolean podeInserir = true;
+
+                if(nome == null || nome.isEmpty()){
+                    msg = "[ERRO!] Nome deve ser Informado";
+                    podeInserir = false;
+                }else if(qtd == null || qtd.isEmpty()){
+                    msg = "[ERRO!] Quantidade deve ser Informado";
+                    podeInserir = false;
+                }else if(valor == null || valor.isEmpty()){
+                    msg = "[ERRO!] Valor deve ser Informado";
+                    podeInserir = false;
+                }
 
                 if (id == null || id.isEmpty() && !daoProduto.validarNomeProduto(nome)) {
                     // request.setAttribute("msg","[ERRO!] Login ou SEnha. já está Cadastrado no Sistema");
-                    msg = "A Prouto já existe no cadastro";
+                    msg = "A Prouto já existe no Cadastro";
 
-                }else
+                }
                 if (msg != null) {
                     request.setAttribute("msg", msg);
-                }else
+                }
                 if (id == null || id.isEmpty() && daoProduto.validarNomeProduto(nome)
                         && podeInserir) {
                     request.setAttribute("msg2", "Produto Salvo com Sucesso!.");
@@ -120,5 +123,6 @@ public class ServletProduto extends HttpServlet {
             }
         }
     }
+
 
 }

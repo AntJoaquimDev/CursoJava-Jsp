@@ -7,6 +7,7 @@
 <body >
 
 <h1>Acesso Negado para seu Usuario</h1>
+<a href="index.jsp">Click para retornar!</a>
 
 </body>
 

@@ -28,7 +28,7 @@ public class ServletLogin extends HttpServlet {
                RequestDispatcher dispatcher = request.getRequestDispatcher("acessoLiberado.jsp");
                dispatcher.forward(request,response);
            }else {//acesso negado
-               RequestDispatcher dispatcher = request.getRequestDispatcher("acessoNegado.jsp");
+              RequestDispatcher dispatcher = request.getRequestDispatcher("acessoNegado.jsp");
                dispatcher.forward(request,response);
            }
        }catch (Exception e){

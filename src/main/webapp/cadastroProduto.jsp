@@ -14,13 +14,20 @@
     <title>Cadastro de Produto</title>
 </head>
 <body>
+<a href="acessoLiberado.jsp">
+    <img src="img/sair.png" alt="Editar" width="50px" height="50px" title="Voltar Para inicio-->"/>
+</a>
+<td></td>
+<a href="index.jsp">
+    <img src="img/logout-48.png" alt="Editar" width="50px" height="50px" title="Sair do Sistema-->"/>
+</a>
 <center><h1>Cadastro de Produtos</h1></center>
 <center>
     <div class="login-page">
         <div class="form">
             <h3 style="color: #ea100f">${msg} </h3>
             <h3 style="color: #29ee09">${msg2} </h3>
-            <form action="salvarProduto" method="post" id="formProduto">
+            <form action="salvarProduto" method="post" id="formProduto" onsubmit="validarCampos()">
                 <ul class="form-style-1">
                     <table>
 
@@ -39,11 +46,10 @@
                             </td>
                         </tr>
                         <tr>
-                            <td>Valor Unitário</td>
+                            <td>Valor unt R$:</td>
                             <td><input type="text" id="valor" name="valor" value="${produto.valor}" class="field-long">
                             </td>
                         </tr>
-
                         <tr>
                             <td></td>
                             <td><input type="submit" value="Salvar ">
@@ -93,5 +99,16 @@
 
     </c:forEach>
 </table>
+<script type="text/javascript">
+    function validarCampos() {
+        if (document.getElementById("nome").value == '') {
+            alert("Nome do Produto é obrigatório!")
+        } else if (document.getElementById("qtd").value == '') {
+            alert("Qauntidade do Produto é obrigatório!")
+        } else if (document.getElementById("valor").value == '') {
+            alert("Valor R$ é do Produto é obrigatório!")
+        }
+    }
+</script>
 </body>
 </html>

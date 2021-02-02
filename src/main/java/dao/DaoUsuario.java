@@ -19,7 +19,7 @@ public class DaoUsuario {
 
     public void salvar(UsuarioBean usuario) {
 
-        String sql = "insert into usuario(nome,login,senha,telefone) values(?,?,?,?)";
+        String sql = "insert into usuario(nome,login,senha,telefone,cep,rua,bairro,cidade,uf) values(?,?,?,?,?,?,?,?,?)";
 
         PreparedStatement insert = null;
         try {
@@ -28,6 +28,12 @@ public class DaoUsuario {
             insert.setString(2, usuario.getLogin());
             insert.setString(3, usuario.getSenha());
             insert.setString(4, usuario.getTelefone());
+            insert.setString(5, usuario.getCep());
+            insert.setString(6,usuario.getRua());
+            insert.setString(7, usuario.getBairro());
+            insert.setString(8, usuario.getCidade());
+            insert.setString(9, usuario.getUf());
+
             insert.execute();
             connection.commit();
 
@@ -55,6 +61,12 @@ public class DaoUsuario {
             usuarioBean.setLogin(resultSet.getString("login"));
             usuarioBean.setSenha(resultSet.getString("senha"));
             usuarioBean.setTelefone(resultSet.getString("telefone"));
+            usuarioBean.setCep(resultSet.getString("cep"));
+            usuarioBean.setRua(resultSet.getString("rua"));
+            usuarioBean.setBairro(resultSet.getString("bairro"));
+            usuarioBean.setCidade(resultSet.getString("cidade"));
+            usuarioBean.setUf(resultSet.getString("uf"));
+
             listar.add(usuarioBean);
         }
         return listar;
@@ -91,6 +103,11 @@ public class DaoUsuario {
             usuarioBean.setLogin(resultSet.getString("login"));
             usuarioBean.setSenha(resultSet.getString("senha"));
             usuarioBean.setTelefone(resultSet.getString("telefone"));
+            usuarioBean.setCep(resultSet.getString("cep"));
+            usuarioBean.setRua(resultSet.getString("rua"));
+            usuarioBean.setBairro(resultSet.getString("bairro"));
+            usuarioBean.setCidade(resultSet.getString("cidade"));
+            usuarioBean.setUf(resultSet.getString("uf"));
             return usuarioBean;
         }
 
@@ -100,15 +117,21 @@ public class DaoUsuario {
     public void atualizar(UsuarioBean usuarioBean) {
 
         try {
-            String sql = "update usuario set nome = ?,login = ?, senha = ? ,telefone= ? where id = " + usuarioBean.getId();
+            String sql = "update usuario set nome = ?,login = ?, senha = ? ,telefone= ?,cep = ?, rua = ?,bairro = ?,cidade = ?,uf = ?" +
+                    " where id = " + usuarioBean.getId();
 
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, usuarioBean.getNome());
-            preparedStatement.setString(2, usuarioBean.getLogin());
-            preparedStatement.setString(3, usuarioBean.getSenha());
-            preparedStatement.setString(4, usuarioBean.getTelefone());
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, usuarioBean.getNome());
+            statement.setString(2, usuarioBean.getLogin());
+            statement.setString(3, usuarioBean.getSenha());
+            statement.setString(4, usuarioBean.getTelefone());
+            statement.setString(5, usuarioBean.getCep());
+            statement.setString(6,usuarioBean.getRua());
+            statement.setString(7, usuarioBean.getBairro());
+            statement.setString(8, usuarioBean.getCidade());
+            statement.setString(9, usuarioBean.getUf());
 
-            preparedStatement.executeUpdate();
+            statement.executeUpdate();
             connection.commit();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

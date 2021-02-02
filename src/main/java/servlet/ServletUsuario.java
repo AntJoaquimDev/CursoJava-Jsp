@@ -72,6 +72,11 @@ public class ServletUsuario extends HttpServlet {
             String login = request.getParameter("login");
             String senha = request.getParameter("senha");
             String telefone = request.getParameter("telefone");
+            String cep = request.getParameter("cep");
+            String rua = request.getParameter("rua");
+            String bairro = request.getParameter("bairro");
+            String cidade = request.getParameter("cidade");
+            String uf = request.getParameter("uf");
 
 
             UsuarioBean usuarioBean = new UsuarioBean();
@@ -80,6 +85,11 @@ public class ServletUsuario extends HttpServlet {
             usuarioBean.setLogin(login);
             usuarioBean.setSenha(senha);
             usuarioBean.setTelefone(telefone);
+            usuarioBean.setCep(cep);
+            usuarioBean.setRua(rua);
+            usuarioBean.setBairro(bairro);
+            usuarioBean.setCidade(cidade);
+            usuarioBean.setUf(uf);
             try {
 
                 String msg = null;
