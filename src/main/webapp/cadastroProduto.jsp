@@ -30,10 +30,10 @@
             <form action="salvarProduto" method="post" id="formProduto" onsubmit="validarCampos()">
                 <ul class="form-style-1">
                     <table>
-
                         <tr>
                             <td>Codigo Produto</td>
-                            <td><input type="text" id="id" name="id" value="${produto.id}" class="field-long"></td>
+                            <td><input type="text" id="id" name="id" readonly="readonly" value="${produto.id}"
+                                       class="field-long"></td>
                         </tr>
                         <tr>
                             <td>Nome Produto</td>
