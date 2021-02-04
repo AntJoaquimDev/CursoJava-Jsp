@@ -37,23 +37,27 @@
             <h3 style="color: #ea100f">${msg} </h3>
             <h3 style="color: #29ee09">${msg2} </h3>
 
-            <form action="salvarUsuario" method="post" id="formUser" onsubmit="validarCampos()">
+            <form action="salvarUsuario" method="post" id="formUser" onsubmit="validarCampos();">
+
                 <ul class="form-style-1">
 
                     <table>
                         <tr>
                             <td>Codigo:</td>
-                            <td><input type="text" id="id" name="id" readonly="readonly" value="${user.id}" class="field-long"></td>
+                            <td><input type="text" id="id" name="id" readonly="readonly" value="${user.id}"
+                                       class="field-long"></td>
                             <td>Cep:</td>
-                            <td><input type="text" id="cep" name="cep" size="10" value="${user.cep} "
+                            <td><input type="text" id="cep" name="cep" placeholder="Digite CEP válido"
+                                       value="${user.cep} "
                                        onblur="consultaCep()"></td>
                         </tr>
                         <tr>
                             <td>Nome:</td>
-                            <td><input type="text" id="nome" name="nome" value="${user.nome}" class="field-long">
+                            <td><input type="text" id="nome" name="nome" value="${user.nome}">
                             </td>
                             <td>Rua:</td>
-                            <td><input type="text" id="rua" name="rua" value="${user.rua}"></td>
+                            <td><input type="text" id="rua" name="rua" placeholder="Digite seu Nome "
+                                       value="${user.rua}"></td>
                         </tr>
                         <tr>
                             <td>Telefone:</td>
@@ -73,6 +77,11 @@
                         <tr>
                         </tr>
                         <tr>
+                            <td>Foto:</td>
+                            <td><input type="file" name="foto" value="Foto"></td>
+                        </tr>
+                        <tr>
+                        <tr>
                             <td>Senha:</td>
                             <td><input type="password" id="senha" name="senha" value="${user.senha}" class="field-long">
                             </td>
@@ -80,6 +89,7 @@
                             <td><input type="text" id="uf" name="uf" size="5" value="${user.uf}"></td>
                         <tr>
                         </tr>
+
                         <tr>
                             <td></td>
                             <td><input type="submit" value="Salvar ">
@@ -99,7 +109,7 @@
     <thead>
     <caption><h2>Usuários cadastrados no Sistema</h2></caption>
     <tr class="w3-green">
-        <th >Codigo</th>
+        <th>Codigo</th>
         <th>Nome</th>
         <th>Telefone</th>
         <th>Cep</th>
@@ -118,7 +128,7 @@
     <c:forEach items="${usuarios}" var="user">
 
         <tr>
-            <td><c:out value="${user.id}" ></c:out></td>
+            <td><c:out value="${user.id}"></c:out></td>
 
             <td><img src="img/user.png" alt="Editar" width="20px" height="20px"
                      title="usuário -->"/> <c:out value="${user.nome}"></c:out></td>
@@ -164,6 +174,7 @@
         }
         return true;
     }
+
     $(document).ready(function () {
 
         function limpa_formulário_cep() {

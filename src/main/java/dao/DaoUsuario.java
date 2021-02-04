@@ -16,7 +16,6 @@ public class DaoUsuario {
     public DaoUsuario() {
         connection = SingleConnection.getConnection();
     }
-
     public void salvar(UsuarioBean usuario) {
 
         String sql = "insert into usuario(nome,login,senha,telefone,cep,rua,bairro,cidade,uf) values(?,?,?,?,?,?,?,?,?)";

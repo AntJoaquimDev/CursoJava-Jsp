@@ -2,6 +2,10 @@ package servlet;
 
 import bens.UsuarioBean;
 import dao.DaoUsuario;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.tomcat.util.codec.binary.Base64;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(name = "/salvarUsuario", value = "/salvarUsuario")
 public class ServletUsuario extends HttpServlet {
@@ -91,6 +96,21 @@ public class ServletUsuario extends HttpServlet {
             usuarioBean.setCidade(cidade);
             usuarioBean.setUf(uf);
             try {
+
+                /*Inicio upload
+                if(ServletFileUpload.isMultipartContent(request)){
+
+                    List<FileItem> fileItems = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+                    for (FileItem fileItem : fileItems) {
+                        if(fileItem.getFieldName().equals("foto")){
+                            String foto = new Base64().encodeBase64String(fileItem.get());
+                            System.out.println(foto);
+                        }
+                    }
+                }
+
+
+                Fim upload*/
 
                 String msg = null;
                 boolean podeInserir = true;

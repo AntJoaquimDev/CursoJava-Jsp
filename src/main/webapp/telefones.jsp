@@ -44,7 +44,7 @@
                         <tr>
                             <td>User:</td>
                             <td><input type="text" readonly="readonly" id="id" name="id"
-                                       class="field-long" value="${userEscolhido.id}"></td>
+                                       class="field-long"  value="${userEscolhido.id}"></td>
 
                             <td><input type="text" readonly="readonly" id="nome" name="nome"
                                        class="field-long" value="${userEscolhido.nome}"></td>
@@ -52,7 +52,7 @@
                         <tr>
                             <td>Número:</td>
                             <td><input type="text" id="numero" name="numero" class="field-long"
-                                      ></td>
+                                 placeholder="Digite o Telefone " ></td>
                             <td><select id="tipo" name="tipo">
                                 <option>Casa</option>
                                 <option>Trabalho</option>

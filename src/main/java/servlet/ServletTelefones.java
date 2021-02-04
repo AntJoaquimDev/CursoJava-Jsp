@@ -17,8 +17,8 @@ import java.sql.SQLException;
 @WebServlet(name = "/salvarTelefones", value = "/salvarTelefones")
 public class ServletTelefones extends HttpServlet {
     private static final long serialVersionUID = 1l;
-    private DaoUsuario daoUsuario = new DaoUsuario();
-    private DaoTelefones daoTelefones = new DaoTelefones();
+    DaoUsuario daoUsuario = new DaoUsuario();
+    DaoTelefones daoTelefones = new DaoTelefones();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
@@ -80,8 +80,7 @@ public class ServletTelefones extends HttpServlet {
 
             view.forward(request, response);
 
-            System.out.println(numero + "////" + tipo + "" + usuario.getId());
-        } catch (SQLException e) {
+           } catch (SQLException e) {
             e.printStackTrace();
         }
 
