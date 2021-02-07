@@ -13,14 +13,15 @@ public class UsuarioBean {
     private String telefone;
     private String fotoBase64;
     private String contentType;
+    private String docBase64;
+    private String contentTypeDoc;
+    private String tempFileUser;
 
-    private String tempFotoUser;
 
-    public String getTempFotoUser() {
-        tempFotoUser = "data:" + contentType + ";base64," + fotoBase64;
-        return tempFotoUser;
+    public String getTempFileUser() {
+        tempFileUser = "data:" + contentType + ";base64," + fotoBase64;
+        return tempFileUser;
     }
-
 
     public Long getId() {
         return id;
@@ -116,5 +117,21 @@ public class UsuarioBean {
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
+    }
+
+    public String getDocBase64() {
+        return docBase64;
+    }
+
+    public void setDocBase64(String docBase64) {
+        this.docBase64 = docBase64;
+    }
+
+    public String getContentTypeDoc() {
+        return contentTypeDoc;
+    }
+
+    public void setContentTypeDoc(String contentTypeDoc) {
+        this.contentTypeDoc = contentTypeDoc;
     }
 }

@@ -2,10 +2,8 @@ package servlet;
 
 import bens.UsuarioBean;
 import dao.DaoUsuario;
-
-import java.io.*;
-import java.sql.SQLException;
-import java.util.List;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.tomcat.util.codec.binary.Base64;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,12 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.tomcat.util.buf.UDecoder;
-import org.apache.tomcat.util.codec.binary.Base64;
+import java.io.*;
+import java.sql.SQLException;
 
 @WebServlet(name = "/salvarUsuario", value = "/salvarUsuario")
 @MultipartConfig
@@ -54,21 +48,35 @@ public class ServletUsuario extends HttpServlet {
                 request.setAttribute("usuarios", daoUsuario.listar());
                 view.forward(request, response); // --> para fazer o redirecionamento na tela
 
-            }else if(acao.equalsIgnoreCase("download")){ //converte a base64 a img do banco bytes.p/ baixar o arquivo para o pc"fazer o download"
+            } else if (acao.equalsIgnoreCase("download")) { //converte a base64 a img do banco bytes.p/ baixar o arquivo para o pc"fazer o download"
                 UsuarioBean usuarioBean = daoUsuario.consultar(user);
-                if(usuarioBean != null){
-                  response.setHeader("Content-Disposition","attachment;filename=arquivo."
-                          + usuarioBean.getContentType().split("\\/")[1]);
-                  /*coloca os bytes em um objeto de entrada para processar*/
-                  byte[] imageFotoBytes = new Base64().decodeBase64(usuarioBean.getFotoBase64());
-                  InputStream is = new ByteArrayInputStream(imageFotoBytes);
+                if (usuarioBean != null) {
 
-                  //inicia a resposta para o navegar
-                    int read=0;
+                    String contentType = "";
+                    byte[] fileBytes = null;
+                    String tipo = request.getParameter("tipo");
+
+                    if (tipo.equalsIgnoreCase("imagem")) {
+                        contentType = usuarioBean.getContentType();
+                        fileBytes = new Base64().decodeBase64(usuarioBean.getFotoBase64());
+                    } else if (tipo.equalsIgnoreCase("curriculo")) {
+                        contentType = usuarioBean.getContentTypeDoc();
+                        fileBytes = new Base64().decodeBase64(usuarioBean.getDocBase64());
+                    }
+
+                    response.setHeader("Content-Disposition", "attachment;filename=arquivo."
+                            + contentType.split("\\/")[1]);
+
+                    /*coloca os bytes em um objeto de entrada para processar*/
+
+                    InputStream is = new ByteArrayInputStream(fileBytes);
+
+                    //inicia a resposta para o navegar
+                    int read = 0;
                     byte[] bytes = new byte[1024];
                     OutputStream os = response.getOutputStream();
-                    while ((read = is.read(bytes)) != -1){
-                        os.write(bytes,0,read);
+                    while ((read = is.read(bytes)) != -1) {
+                        os.write(bytes, 0, read);
                     }
                     os.flush();
                     os.close();
@@ -110,9 +118,8 @@ public class ServletUsuario extends HttpServlet {
             String bairro = request.getParameter("bairro");
             String cidade = request.getParameter("cidade");
             String uf = request.getParameter("uf");
-            String fotobase64 = request.getParameter("fotobase64");
-            String contenttype =request.getParameter("contenttype");
-
+            // String fotobase64 = request.getParameter("fotobase64");
+            //  String contenttype = request.getParameter("contenttype");
 
 
             UsuarioBean usuarioBean = new UsuarioBean();
@@ -132,12 +139,29 @@ public class ServletUsuario extends HttpServlet {
                 if (ServletFileUpload.isMultipartContent(request)) {
                     Part imagemFoto = request.getPart("foto");
 
-                    String fotoBase64 = new Base64()
-                            .encodeBase64String(converteStremParabyte(imagemFoto.getInputStream()));
-                    usuarioBean.setFotoBase64(fotoBase64);
-                    usuarioBean.setContentType(imagemFoto.getContentType());
-                 // System.out.println(fotoBase64.getBytes());
+                    if (imagemFoto != null && imagemFoto.getInputStream().available() > 0) {
 
+                        String fotoBase64 = new Base64()
+                                .encodeBase64String(converteStremParabyte(imagemFoto.getInputStream()));
+                        usuarioBean.setFotoBase64(fotoBase64);
+                        usuarioBean.setContentType(imagemFoto.getContentType());
+
+                    } else {//pegar foto temporaria
+                        usuarioBean.setFotoBase64(request.getParameter("fotoTemp64"));
+                        usuarioBean.setContentType(request.getParameter("contentTypeTemp"));
+                    }
+                    //Processo PDF*/
+                    Part documentoPdf = request.getPart("curriculo");
+                    if (documentoPdf != null && documentoPdf.getInputStream().available() > 0) {
+                        String docBase64 = new Base64()
+                                .encodeBase64String(converteStremParabyte(documentoPdf.getInputStream()));
+                        usuarioBean.setDocBase64(docBase64);
+                        usuarioBean.setContentTypeDoc(documentoPdf.getContentType());
+
+                    } else {//pegar doc temporario
+                        usuarioBean.setDocBase64(request.getParameter("docTemp64"));
+                        usuarioBean.setContentTypeDoc(request.getParameter("contentTypeDocTemp"));
+                    }
                 }
                 /* Fim upload*/
 
