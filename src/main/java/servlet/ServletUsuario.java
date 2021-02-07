@@ -2,22 +2,28 @@ package servlet;
 
 import bens.UsuarioBean;
 import dao.DaoUsuario;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.tomcat.util.codec.binary.Base64;
+
+import java.io.*;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
+import javax.servlet.http.Part;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.tomcat.util.buf.UDecoder;
+import org.apache.tomcat.util.codec.binary.Base64;
 
 @WebServlet(name = "/salvarUsuario", value = "/salvarUsuario")
+@MultipartConfig
 public class ServletUsuario extends HttpServlet {
     private static final long serialVersionUID = 1l;
     DaoUsuario daoUsuario = new DaoUsuario();
@@ -46,7 +52,29 @@ public class ServletUsuario extends HttpServlet {
             } else if (acao.equalsIgnoreCase("listarTodos")) {
                 RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
                 request.setAttribute("usuarios", daoUsuario.listar());
-                view.forward(request, response); // --> para fazer o redirecionamento na tela ficar na mesma tela cadastro
+                view.forward(request, response); // --> para fazer o redirecionamento na tela
+
+            }else if(acao.equalsIgnoreCase("download")){ //converte a base64 a img do banco bytes.p/ baixar o arquivo para o pc"fazer o download"
+                UsuarioBean usuarioBean = daoUsuario.consultar(user);
+                if(usuarioBean != null){
+                  response.setHeader("Content-Disposition","attachment;filename=arquivo."
+                          + usuarioBean.getContentType().split("\\/")[1]);
+                  /*coloca os bytes em um objeto de entrada para processar*/
+                  byte[] imageFotoBytes = new Base64().decodeBase64(usuarioBean.getFotoBase64());
+                  InputStream is = new ByteArrayInputStream(imageFotoBytes);
+
+                  //inicia a resposta para o navegar
+                    int read=0;
+                    byte[] bytes = new byte[1024];
+                    OutputStream os = response.getOutputStream();
+                    while ((read = is.read(bytes)) != -1){
+                        os.write(bytes,0,read);
+                    }
+                    os.flush();
+                    os.close();
+
+
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -82,6 +110,9 @@ public class ServletUsuario extends HttpServlet {
             String bairro = request.getParameter("bairro");
             String cidade = request.getParameter("cidade");
             String uf = request.getParameter("uf");
+            String fotobase64 = request.getParameter("fotobase64");
+            String contenttype =request.getParameter("contenttype");
+
 
 
             UsuarioBean usuarioBean = new UsuarioBean();
@@ -95,22 +126,20 @@ public class ServletUsuario extends HttpServlet {
             usuarioBean.setBairro(bairro);
             usuarioBean.setCidade(cidade);
             usuarioBean.setUf(uf);
+
             try {
+                /*Inicio upload  File de imagens e pdf */
+                if (ServletFileUpload.isMultipartContent(request)) {
+                    Part imagemFoto = request.getPart("foto");
 
-                /*Inicio upload
-                if(ServletFileUpload.isMultipartContent(request)){
+                    String fotoBase64 = new Base64()
+                            .encodeBase64String(converteStremParabyte(imagemFoto.getInputStream()));
+                    usuarioBean.setFotoBase64(fotoBase64);
+                    usuarioBean.setContentType(imagemFoto.getContentType());
+                 // System.out.println(fotoBase64.getBytes());
 
-                    List<FileItem> fileItems = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
-                    for (FileItem fileItem : fileItems) {
-                        if(fileItem.getFieldName().equals("foto")){
-                            String foto = new Base64().encodeBase64String(fileItem.get());
-                            System.out.println(foto);
-                        }
-                    }
                 }
-
-
-                Fim upload*/
+                /* Fim upload*/
 
                 String msg = null;
                 boolean podeInserir = true;
@@ -131,9 +160,7 @@ public class ServletUsuario extends HttpServlet {
                     msg = "Telefone deve ser informado";
                     podeInserir = false;
 
-                }
-
-                else if (id == null || id.isEmpty()
+                } else if (id == null || id.isEmpty()
                         && !daoUsuario.validarLogin(login)) {// QUANDO DOR
                     // USUÁRIO NOVO
                     msg = "Usuário já existe com o mesmo login!";
@@ -164,15 +191,27 @@ public class ServletUsuario extends HttpServlet {
                 RequestDispatcher view = request
                         .getRequestDispatcher("/cadastroUsuario.jsp");
                 request.setAttribute("usuarios", daoUsuario.listar());
-                request.setAttribute("msg","Salvo com Sucesso");
+                request.setAttribute("msg", "Salvo com Sucesso");
                 view.forward(request, response);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
         }
+    }
+
+    /*Converte a entrada de fluxo de dados da imagem para byte[]*/
+    private byte[] converteStremParabyte(InputStream imagem) throws Exception {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int reads = imagem.read();
+        while (reads != -1) {
+            baos.write(reads);
+            reads = imagem.read();
+        }
+
+        return baos.toByteArray();
+
     }
 }
 

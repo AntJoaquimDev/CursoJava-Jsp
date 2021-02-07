@@ -1,23 +1,20 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: antonio joaquim
-  Date: 24/01/2021
-  Time: 17:19
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+         pageEncoding="ISO-8859-1" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="stylesheet" href="resources/css/cadastro.css"/>
+    <!-- Adicionando JQuery -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="css/estiloCadastro.css"/>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
-    <!-- Adicionando JQuery -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-            crossorigin="anonymous"></script>
-
-    <title>Cadastro de UsuÃ¡rio</title>
+    <title>Cadastro de Usuário</title>
 </head>
 <body>
 <a href="index.jsp">
@@ -29,7 +26,7 @@
 </a>
 
 
-<center><h1>Cadastro de UsuÃ¡rio</h1></center>
+<center><h1>Cadastro de Usuário</h1></center>
 <center>
     <div class="login-page">
         <div class="form">
@@ -37,7 +34,8 @@
             <h3 style="color: #ea100f">${msg} </h3>
             <h3 style="color: #29ee09">${msg2} </h3>
 
-            <form action="salvarUsuario" method="post" id="formUser" onsubmit="validarCampos();">
+            <form action="salvarUsuario" method="post" id="formUser"
+                  onsubmit="return validarCampos()?true : false" enctype="multipart/form-data">
 
                 <ul class="form-style-1">
 
@@ -47,7 +45,7 @@
                             <td><input type="text" id="id" name="id" readonly="readonly" value="${user.id}"
                                        class="field-long"></td>
                             <td>Cep:</td>
-                            <td><input type="text" id="cep" name="cep" placeholder="Digite CEP vÃ¡lido"
+                            <td><input type="text" id="cep" name="cep" placeholder="Digite CEP válido"
                                        value="${user.cep} "
                                        onblur="consultaCep()"></td>
                         </tr>
@@ -67,27 +65,23 @@
                             <td>Bairro:</td>
                             <td><input type="text" id="bairro" name="bairro" value="${user.bairro}"></td>
                         </tr>
-
                         <tr>
                             <td>Login:</td>
                             <td><input type="text" id="login" name="login" value="${user.login}" class="field-long">
                             </td>
                             <td>Cidade:</td>
                             <td><input type="text" id="cidade" name="cidade" value="${user.cidade}"></td>
-                        <tr>
                         </tr>
-                        <tr>
-                            <td>Foto:</td>
-                            <td><input type="file" name="foto" value="Foto"></td>
-                        </tr>
-                        <tr>
                         <tr>
                             <td>Senha:</td>
                             <td><input type="password" id="senha" name="senha" value="${user.senha}" class="field-long">
                             </td>
                             <td>Estado:</td>
                             <td><input type="text" id="uf" name="uf" size="5" value="${user.uf}"></td>
+                        </tr>
                         <tr>
+                            <td>Foto:</td>
+                            <td><input type="file" name="foto" value="Foto"></td>
                         </tr>
 
                         <tr>
@@ -107,9 +101,10 @@
 <table class="w3-table-all">
 
     <thead>
-    <caption><h2>UsuÃ¡rios cadastrados no Sistema</h2></caption>
+    <caption><h2>Usuários cadastrados no Sistema</h2></caption>
     <tr class="w3-green">
         <th>Codigo</th>
+        <th>*=*=*=*</th>
         <th>Nome</th>
         <th>Telefone</th>
         <th>Cep</th>
@@ -130,8 +125,9 @@
         <tr>
             <td><c:out value="${user.id}"></c:out></td>
 
-            <td><img src="img/user.png" alt="Editar" width="20px" height="20px"
-                     title="usuÃ¡rio -->"/> <c:out value="${user.nome}"></c:out></td>
+            <td><a  href="salvarUsuario?acao=download&user=${user.id}"><img src='<c:out value="${user.tempFotoUser}"/>' width="50px" height="50px"/></a></td>
+
+            <td><c:out value="${user.nome}"></c:out></td>
 
             <td><c:out value="${user.telefone}"></c:out></td>
 
@@ -177,8 +173,8 @@
 
     $(document).ready(function () {
 
-        function limpa_formulÃ¡rio_cep() {
-            // Limpa valores do formulÃ¡rio de cep.
+        function limpa_formulário_cep() {
+            // Limpa valores do formulário de cep.
             $("#rua").val("");
             $("#bairro").val("");
             $("#cidade").val("");
@@ -189,13 +185,13 @@
         //Quando o campo cep perde o foco.
         $("#cep").blur(function () {
 
-            //Nova variÃ¡vel "cep" somente com dÃ­gitos.
+            //Nova variável "cep" somente com dígitos.
             var cep = $(this).val().replace(/\D/g, '');
 
             //Verifica se campo cep possui valor informado.
             if (cep != "") {
 
-                //ExpressÃ£o regular para validar o CEP.
+                //Expressão regular para validar o CEP.
                 var validacep = /^[0-9]{8}$/;
 
                 //Valida o formato do CEP.
@@ -220,21 +216,21 @@
 
                         } //end if.
                         else {
-                            //CEP pesquisado nÃ£o foi encontrado.
-                            limpa_formulÃ¡rio_cep();
-                            alert("CEP nÃ£o encontrado.");
+                            //CEP pesquisado não foi encontrado.
+                            limpa_formulário_cep();
+                            alert("CEP não encontrado.");
                         }
                     });
                 } //end if.
                 else {
-                    //cep Ã© invÃ¡lido.
-                    limpa_formulÃ¡rio_cep();
-                    alert("Formato de CEP invÃ¡lido.");
+                    //cep é inválido.
+                    limpa_formulário_cep();
+                    alert("Formato de CEP inválido.");
                 }
             } //end if.
             else {
-                //cep sem valor, limpa formulÃ¡rio.
-                limpa_formulÃ¡rio_cep();
+                //cep sem valor, limpa formulário.
+                limpa_formulário_cep();
             }
         });
     });

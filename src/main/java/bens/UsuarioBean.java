@@ -11,6 +11,16 @@ public class UsuarioBean {
     private String login;
     private String senha;
     private String telefone;
+    private String fotoBase64;
+    private String contentType;
+
+    private String tempFotoUser;
+
+    public String getTempFotoUser() {
+        tempFotoUser = "data:" + contentType + ";base64," + fotoBase64;
+        return tempFotoUser;
+    }
+
 
     public Long getId() {
         return id;
@@ -90,5 +100,21 @@ public class UsuarioBean {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public String getFotoBase64() {
+        return fotoBase64;
+    }
+
+    public void setFotoBase64(String fotoBase64) {
+        this.fotoBase64 = fotoBase64;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
     }
 }

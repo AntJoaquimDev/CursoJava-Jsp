@@ -18,7 +18,7 @@ public class DaoUsuario {
     }
     public void salvar(UsuarioBean usuario) {
 
-        String sql = "insert into usuario(nome,login,senha,telefone,cep,rua,bairro,cidade,uf) values(?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into usuario(nome,login,senha,telefone,cep,rua,bairro,cidade,uf,fotobase64,contenttype) values(?,?,?,?,?,?,?,?,?,?,?)";
 
         PreparedStatement insert = null;
         try {
@@ -32,6 +32,8 @@ public class DaoUsuario {
             insert.setString(7, usuario.getBairro());
             insert.setString(8, usuario.getCidade());
             insert.setString(9, usuario.getUf());
+            insert.setString(10, usuario.getFotoBase64());
+            insert.setString(11, usuario.getContentType());
 
             insert.execute();
             connection.commit();
@@ -65,6 +67,8 @@ public class DaoUsuario {
             usuarioBean.setBairro(resultSet.getString("bairro"));
             usuarioBean.setCidade(resultSet.getString("cidade"));
             usuarioBean.setUf(resultSet.getString("uf"));
+            usuarioBean.setFotoBase64(resultSet.getString("fotobase64"));
+            usuarioBean.setContentType(resultSet.getString("contenttype"));
 
             listar.add(usuarioBean);
         }
@@ -107,6 +111,8 @@ public class DaoUsuario {
             usuarioBean.setBairro(resultSet.getString("bairro"));
             usuarioBean.setCidade(resultSet.getString("cidade"));
             usuarioBean.setUf(resultSet.getString("uf"));
+            usuarioBean.setFotoBase64(resultSet.getString("fotobase64"));
+            usuarioBean.setContentType(resultSet.getString("contenttype"));
             return usuarioBean;
         }
 
@@ -116,8 +122,8 @@ public class DaoUsuario {
     public void atualizar(UsuarioBean usuarioBean) {
 
         try {
-            String sql = "update usuario set nome = ?,login = ?, senha = ? ,telefone= ?,cep = ?, rua = ?,bairro = ?,cidade = ?,uf = ?" +
-                    " where id = " + usuarioBean.getId();
+            String sql = "update usuario set nome = ?,login = ?, senha = ? ,telefone= ?,cep = ?, rua = ?,bairro = ?,cidade = ?,uf = ?," +
+                    "fotobase64 = ?,contenttype = ? where id = " + usuarioBean.getId();
 
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, usuarioBean.getNome());
@@ -129,6 +135,8 @@ public class DaoUsuario {
             statement.setString(7, usuarioBean.getBairro());
             statement.setString(8, usuarioBean.getCidade());
             statement.setString(9, usuarioBean.getUf());
+            statement.setString(10, usuarioBean.getFotoBase64());
+            statement.setString(11, usuarioBean.getContentType());
 
             statement.executeUpdate();
             connection.commit();
