@@ -129,8 +129,9 @@ public class DaoUsuario {
     public void atualizar(UsuarioBean usuarioBean) {
 
         try {
-            String sql = "update usuario set nome = ?,login = ?, senha = ? ,telefone= ?,cep = ?, rua = ?,bairro = ?,cidade = ?,uf = ?," +
-                    "fotobase64 = ?,contenttype = ?,docBase64 = ?,contenttypedoc =? where id = " + usuarioBean.getId();
+            String sql = "update usuario set nome = ?,login = ?, senha = ? ,telefone= ?,cep = ?, rua = ?,bairro = ?," +
+                    "cidade = ?,uf = ?, fotobase64 = ?,contenttype = ?,docBase64 = ?,contenttypedoc =? " +
+                    "where id = " + usuarioBean.getId();
 
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, usuarioBean.getNome());
@@ -192,8 +193,8 @@ String sql = "select count(1) as qtd from usuario where login = '" + login + "' 
         return false;
     }
         }
-    }
 
+*/
 
 //parfa validar atualizar com mesmo loguin e mesmo id
 
@@ -206,7 +207,7 @@ String sql = "select count(1) as qtd from usuario where login = '" + login + "' 
         }
         return false;
     }
- */
+
 
 }
 

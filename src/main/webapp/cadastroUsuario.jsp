@@ -81,17 +81,21 @@
                         </tr>
                         <tr>
                             <td>Foto:</td>
-                            <td><input type="file" name="foto" >
-                                <input type="text" style="display: none" name="fotoTemp64"readonly="readonly" value="${user.fotoBase64}">
-                                <input type="text" style="display: none" name="contentTypeTemp"redonly="readonly" value="${user.contentType}">
+                            <td><input type="file" name="foto">
+                                <input type="text" style="display: none" name="fotoTemp64" readonly="readonly"
+                                       value="${user.fotoBase64}">
+                                <input type="text" style="display: none" name="contentTypeTemp" redonly="readonly"
+                                       value="${user.contentType}">
                             </td>
                         </tr>
                         <tr>
                             <td>Curriculo:</td>
 
-                            <td><input type="file" name="curriculo" >
-                                <input type="text" style="display: none" name="docTemp64" readonly="readonly" value="${user.docBase64}"></td>
-                            <<input type="text" style="display: none" name="contentTypeDocTemp" readonly="readonly" value="${user.contentTypeDoc}"></td>
+                            <td><input type="file" name="curriculo">
+                                <input type="text" style="display: none" name="docTemp64" readonly="readonly"
+                                       value="${user.docBase64}"></td>
+                            <td><input type="text" style="display: none" name="contentTypeDocTemp" readonly="readonly"
+                                    value="${user.contentTypeDoc}"></td>
                         </tr>
 
                         <tr>
@@ -136,9 +140,25 @@
         <tr>
             <td><c:out value="${user.id}"></c:out></td>
 
-            <td><a  href="salvarUsuario?acao=download&tipo=imagem&user=${user.id}"><img src='<c:out value="${user.tempFileUser}"/>' width="50px" height="50px"/></a></td>
-            <td><a  href="salvarUsuario?acao=download&tipo=curriculo&user=${user.id}" title="Curriculo"  >Curriculo </a></td>
+            <!-- inicio veirficação se exixte img ou nao. e colocar img padrao -->
+            <c:if test="${user.fotoBase64.isEmpty() ==  false}">
+                <td><a href="salvarUsuario?acao=download&tipo=imagem&user=${user.id}">
+                    <img src='<c:out value="${user.tempFileUser}"/>' width="50px" height="50px"/></a></td>
+            </c:if>
+            <c:if test="${user.fotoBase64.isEmpty() == true}">
+                <td><img alt="imagem User" src="img/user.png"  width="50px" height="50px"/></td>
+            </c:if>
+            <!--fim -->
 
+            <!-- inicio veirficação se exixte Doc ou nao. e colocar img Doc padrao -->
+            <c:if test="${user.docBase64.isEmpty() ==  false}">
+            <td><a href="salvarUsuario?acao=download&tipo=curriculo&user=${user.id}"
+                   title="Curriculo"><img alt="imagem User" src="img/arquivo.png.png"  width="50px" height="50px"/> </a></td>
+            </c:if>
+            <c:if test="${user.docBase64.isEmpty() == true}">
+                <td><img alt="Doc User" src="img/arquivo.png" width="50px" height="50px"/></td>
+            </c:if>
+            <!--fim -->
             <td><c:out value="${user.nome}"></c:out></td>
 
             <td><c:out value="${user.telefone}"></c:out></td>

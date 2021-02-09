@@ -24,8 +24,8 @@
     <img src="img/logout-48.png" alt="Editar" width="50px" height="50px" title="Sair do Sistema-->"/>
 </a>
 <td></td>
-<a href="acessoLiberado.jsp">
-    <img src="img/sair.png" alt="Editar" width="60px" height="40px" title="Voltar Para inicio-->"/>
+<a href="salvarUsuario?acao=listarTodos">
+    <img src="img/sair.png" alt="Editar" width="60px" height="40px" title="Voltar Para Tela Usuario-->"/>
 </a>
 
 
