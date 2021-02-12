@@ -141,11 +141,11 @@
             <td><c:out value="${user.id}"></c:out></td>
 
             <!-- inicio veirficação se exixte img ou nao. e colocar img padrao -->
-            <c:if test="${user.fotoBase64.isEmpty() ==  false}">
+            <c:if test="${user.fotoBase64Miniatura.isEmpty() ==  false}">
                 <td><a href="salvarUsuario?acao=download&tipo=imagem&user=${user.id}">
-                    <img src='<c:out value="${user.tempFileUser}"/>' width="50px" height="50px"/></a></td>
+                    <img src='<c:out value="${user.fotoBase64Miniatura}"/>' width="50px" height="50px"/></a></td>
             </c:if>
-            <c:if test="${user.fotoBase64.isEmpty() == true}">
+            <c:if test="${user.fotoBase64Miniatura.isEmpty() == true}">
                 <td><img alt="imagem User" src="img/user.png"  width="50px" height="50px"/></td>
             </c:if>
             <!--fim -->

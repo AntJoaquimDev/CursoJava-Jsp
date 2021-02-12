@@ -4,7 +4,9 @@ import bens.UsuarioBean;
 import dao.DaoUsuario;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.tomcat.util.codec.binary.Base64;
+import sun.awt.image.BufferedImageDevice;
 
+import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -13,6 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import javax.xml.bind.DatatypeConverter;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.SQLException;
 
@@ -143,11 +148,39 @@ public class ServletUsuario extends HttpServlet {
                     Part imagemFoto = request.getPart("foto");
 
                     if (imagemFoto != null && imagemFoto.getInputStream().available() > 0) {
+                    //imagem normal
 
-                        String fotoBase64 = new Base64()
-                                .encodeBase64String(converteStremParabyte(imagemFoto.getInputStream()));
+
+                        String fotoBase64 = new Base64().encodeBase64String(converteStremParabyte(imagemFoto.getInputStream()));
+
                         usuarioBean.setFotoBase64(fotoBase64);
                         usuarioBean.setContentType(imagemFoto.getContentType());
+
+                    //fim imagem normal
+                        //transformar em um buffereredImagem decodificar
+
+                        byte[] imageByteDecode = new Base64().decodeBase64(fotoBase64);
+                        BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imageByteDecode));
+
+                        int type = bufferedImage.getType()==0 ? BufferedImage.TYPE_INT_ARGB: bufferedImage.getType();
+                        //pegar o tipo da imagem
+                        BufferedImage resizedImage = new BufferedImage(100,100,type);
+                        Graphics2D graf =resizedImage.createGraphics();
+                        graf.drawImage(bufferedImage,0,0,100,100,null);
+                        graf.dispose();
+                        /*Escrever a imagem novamente*/
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        ImageIO.write(resizedImage,"png",baos);
+
+
+                        String fotoMiniaturaBase64 = "data:image/png;base64,"+ DatatypeConverter.printBase64Binary(baos.toByteArray());
+
+                      usuarioBean.setFotoBase64Miniatura(fotoMiniaturaBase64);
+                        /* Inicio conversao miniatura foto*/
+
+
+
+                        /* fim miniatura imagem*/
 
                     } else {//pegar foto temporaria
                         usuarioBean.setFotoBase64(request.getParameter("fotoTemp64"));

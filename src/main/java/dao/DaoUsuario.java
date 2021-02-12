@@ -18,8 +18,8 @@ public class DaoUsuario {
     }
     public void salvar(UsuarioBean usuario) {
 
-        String sql = "insert into usuario(nome,login,senha,telefone,cep,rua,bairro,cidade,uf,fotobase64,contenttype,docBase64,contenttypedoc) " +
-                "values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into usuario(nome,login,senha,telefone,cep,rua,bairro,cidade,uf,fotobase64,contenttype,docBase64,contenttypedoc,fotoBase64Miniatura) " +
+                "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         PreparedStatement insert = null;
         try {
@@ -37,6 +37,7 @@ public class DaoUsuario {
             insert.setString(11, usuario.getContentType());
             insert.setString(12, usuario.getDocBase64());
             insert.setString(13, usuario.getContentTypeDoc());
+            insert.setString(14, usuario.getFotoBase64Miniatura());
 
             insert.execute();
             connection.commit();
@@ -70,10 +71,11 @@ public class DaoUsuario {
             usuarioBean.setBairro(resultSet.getString("bairro"));
             usuarioBean.setCidade(resultSet.getString("cidade"));
             usuarioBean.setUf(resultSet.getString("uf"));
-            usuarioBean.setFotoBase64(resultSet.getString("fotobase64"));
+           // usuarioBean.setFotoBase64(resultSet.getString("fotobase64"));
             usuarioBean.setContentType(resultSet.getString("contenttype"));
             usuarioBean.setDocBase64(resultSet.getString("docbase64"));
             usuarioBean.setContentTypeDoc(resultSet.getString("contenttypedoc"));
+            usuarioBean.setFotoBase64Miniatura(resultSet.getString("fotoBase64Miniatura"));
             listar.add(usuarioBean);
         }
         return listar;
@@ -123,6 +125,7 @@ public class DaoUsuario {
             usuarioBean.setContentType(resultSet.getString("contenttype"));
             usuarioBean.setDocBase64(resultSet.getString("docbase64"));
             usuarioBean.setContentTypeDoc(resultSet.getString("contenttypedoc"));
+            usuarioBean.setFotoBase64Miniatura(resultSet.getString("fotoBase64Miniatura"));
 
             return usuarioBean;
         }
@@ -134,7 +137,7 @@ public class DaoUsuario {
 
         try {
             String sql = "update usuario set nome = ?,login = ?, senha = ? ,telefone= ?,cep = ?, rua = ?,bairro = ?," +
-                    "cidade = ?,uf = ?, fotobase64 = ?,contenttype = ?,docBase64 = ?,contenttypedoc =? " +
+                    "cidade = ?,uf = ?, fotobase64 = ?,contenttype = ?,docBase64 = ?,contenttypedoc =? ,fotoBase64Miniatura = ?" +
                     "where id = " + usuarioBean.getId();
 
             PreparedStatement statement = connection.prepareStatement(sql);
@@ -151,6 +154,7 @@ public class DaoUsuario {
             statement.setString(11, usuarioBean.getContentType());
             statement.setString(12, usuarioBean.getDocBase64());
             statement.setString(13, usuarioBean.getContentTypeDoc());
+            statement.setString(14,usuarioBean.getFotoBase64Miniatura());
 
             statement.executeUpdate();
             connection.commit();
