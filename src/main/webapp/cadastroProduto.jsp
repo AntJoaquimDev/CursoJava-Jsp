@@ -7,10 +7,15 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
 <head>
     <link rel="stylesheet" href="css/estiloProduto.css"/>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <script type="text/javascript" src="jscript/jquery.min.js"></script>
+    <script type="text/javascript" src="jscript/jquery.maskMoney.min.js"></script>
+
     <title>Cadastro de Produto</title>
 </head>
 <body>
@@ -42,19 +47,23 @@
                         </tr>
                         <tr>
                             <td>Qtd Produto</td>
-                            <td><input type="text" id="qtd" name="qtd" value="${produto.qtd}" class="field-long">
+                            <td><input type="text" id="qtd" name="qtd" value="${produto.qtd}"
+                                       class="field-long" maxlength="8" >
+
                             </td>
                         </tr>
                         <tr>
-                            <td>Valor unt R$:</td>
-                            <td><input type="text" id="valor" name="valor" value="${produto.valor}" class="field-long">
+                            <td>Valor R$:</td>
+                            <td><input type="text" id="valor" name="valor" value="${produto.valorEmTxt}"
+                                       data-thousands="." data-decimal="."
+                                       class="field-long" maxlength="8">
                             </td>
                         </tr>
                         <tr>
                             <td></td>
-                            <td><input type="submit" value="Salvar ">
+                            <td><input type="submit" value="Salvar" style="width: 112px">
                                 <input type="submit" value="Cancelar " onclick="document.getElementById('formProduto')
-         .action = 'salvarProduto?acao=reset'"></td>
+         .action = 'salvarProduto?reset'" style="width: 112px"></td>
                         </tr>
                     </table>
                 </ul>
@@ -87,7 +96,8 @@
 
             <td><c:out value="${produto.qtd}"></c:out></td>
 
-            <td><c:out value="${produto.valor}"></c:out></td>
+            <td> <fmt:formatNumber type="number" maxFractionDigits="2" value="${produto.valor}"/> </td>
+
 
 
             <td><a href="salvarProduto?acao=delete&produto=${produto.id}">
@@ -100,6 +110,7 @@
     </c:forEach>
 </table>
 <script type="text/javascript">
+
     function validarCampos() {
         if (document.getElementById("nome").value == '') {
             alert("Nome do Produto é obrigatório!")
@@ -111,4 +122,10 @@
     }
 </script>
 </body>
+<script type="text/javascript">
+    $(function () {
+        $('#valor').maskMoney();
+    })
+
+</script>
 </html>

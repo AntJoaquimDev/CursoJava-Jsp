@@ -26,14 +26,14 @@ public class ServletProduto extends HttpServlet {
             String acao = request.getParameter("acao");
             String produto = request.getParameter("produto");
 
-            if (acao.equalsIgnoreCase("delete")) {
+            if (acao != null && acao.equalsIgnoreCase("delete")) {
                 daoProduto.delete(produto);
                 request.setAttribute("msg2", "Cadastro Deletado!.");
                 RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
                 request.setAttribute("produtos", daoProduto.listar());
                 view.forward(request, response); // --> para fazer o redirecionamento na tela ficar na mesma tela cadastro
 
-            } else if (acao.equalsIgnoreCase("editar")) {
+            } else if (acao != null && acao.equalsIgnoreCase("editar")) {
 
                 ProdutoBean produtoBean = daoProduto.consultar(produto); // consulta usuario para deletar, passando o objeto
 
@@ -41,11 +41,16 @@ public class ServletProduto extends HttpServlet {
                 request.setAttribute("produto", produtoBean);
                 view.forward(request, response); // -->
 
-            } else if (acao.equalsIgnoreCase("listarTodos")) {
+            } else if (acao != null && acao.equalsIgnoreCase("listarTodos")) {
                 RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
                 request.setAttribute("produtos", daoProduto.listar());
                 view.forward(request, response); // --> para fazer o redirecionamento na tela ficar na mesma tela cadastro
+            } else {
+                RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
+                request.setAttribute("produtos", daoProduto.listar());
+                view.forward(request, response); // --> p
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,38 +61,40 @@ public class ServletProduto extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
         String acao = request.getParameter("acao");
-
-        if (acao != null && acao.equalsIgnoreCase("reset")) {
-            try {
+        try {
+            if (acao != null && acao.equalsIgnoreCase("reset")) {
                 RequestDispatcher view = request.getRequestDispatcher("/cadastroProduto.jsp");
                 request.setAttribute("produtos", daoProduto);
                 view.forward(request, response); //para redirecionar na tela de cadastro
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            String msg = null;
-            boolean podeInserir = true;
-            String id = request.getParameter("id");
-            String nome = request.getParameter("nome");
-            String qtd = request.getParameter("qtd");
-            String valor = request.getParameter("valor");
+            } else {
+                String msg = null;
+                boolean podeInserir = true;
+                String id = request.getParameter("id");
+                String nome = request.getParameter("nome");
+                String qtd = request.getParameter("qtd");
+                String valor = request.getParameter("valor");
 
-            ProdutoBean produtoBean = new ProdutoBean();
-            produtoBean.setId(!id.isEmpty() ? Long.parseLong(id) : null);
-            produtoBean.setNome(nome);
-            produtoBean.setQtd(!qtd.isEmpty() ? Double.parseDouble(qtd): 0);
-            produtoBean.setValor(!valor.isEmpty() ? Double.parseDouble(valor):0);
-            try {
+                ProdutoBean produtoBean = new ProdutoBean();
+                produtoBean.setId(!id.isEmpty() ? Long.parseLong(id) : null);
+                produtoBean.setNome(nome);
 
-                if(nome == null || nome.isEmpty()){
+                produtoBean.setQtd(!qtd.isEmpty() ? Double.parseDouble(qtd.replaceAll("\\,", ".")) : 0);
+
+                if (valor != null && !valor.isEmpty()) {
+                    String valorParse = valor.replaceAll("\\.", "");
+                    valorParse = valorParse.replaceAll("\\,", ".");
+                    produtoBean.setValor(Double.parseDouble(valorParse));
+                }
+
+
+                if (nome == null || nome.isEmpty()) {
                     msg = "[ERRO!] Nome deve ser Informado";
                     podeInserir = false;
-                }else if(qtd == null || qtd.isEmpty()){
+                } else if (qtd == null || qtd.isEmpty()) {
                     msg = "[ERRO!] Quantidade deve ser Informado";
                     podeInserir = false;
-                }else if(valor == null || valor.isEmpty()){
+                } else if (valor == null || valor.isEmpty()) {
                     msg = "[ERRO!] Valor deve ser Informado";
                     podeInserir = false;
                 }
@@ -117,10 +124,9 @@ public class ServletProduto extends HttpServlet {
                 request.setAttribute("produtos", daoProduto.listar());
                 view.forward(request, response); // --> para fazer o redirecionamento na tela ficar na mesma tela cadastro
 
-
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
+        } catch (Exception e3) {
+            e3.printStackTrace();
         }
     }
 

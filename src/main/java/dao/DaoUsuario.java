@@ -83,8 +83,12 @@ public class DaoUsuario {
 
         try {
             String sql = "delete from usuario where id = '" + id + "'";
+
             PreparedStatement statement = connection.prepareStatement(sql);
+
             statement.execute();
+
+
             connection.commit();
 
         } catch (Exception e) {

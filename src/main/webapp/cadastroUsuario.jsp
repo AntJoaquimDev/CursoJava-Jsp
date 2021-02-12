@@ -18,11 +18,11 @@
 </head>
 <body>
 <a href="index.jsp">
-    <img src="img/logout-48.png" alt="Editar" width="50px" height="50px" title="Sair do Sistema-->"/>
+    <img src="img/logout-48.png" alt="Editar" width="30px" height="30px" title="Sair do Sistema-->"/>
 </a>
 <td></td>
 <a href="acessoLiberado.jsp">
-    <img src="img/sair.png" alt="Editar" width="60px" height="40px" title="Voltar Para inicio-->"/>
+    <img src="img/sair.png" alt="Editar" width="45px" height="40px" title="Voltar Para inicio-->"/>
 </a>
 
 
@@ -43,7 +43,7 @@
                         <tr>
                             <td>Codigo:</td>
                             <td><input type="text" id="id" name="id" readonly="readonly" value="${user.id}"
-                                       class="field-long"></td>
+                                       class="field-long" maxlength="8"></td>
                             <td>Cep:</td>
                             <td><input type="text" id="cep" name="cep" placeholder="Digite CEP válido"
                                        value="${user.cep} "
@@ -60,7 +60,7 @@
                         <tr>
                             <td>Telefone:</td>
                             <td><input type="text" id="telefone" name="telefone" value="${user.telefone}"
-                                       class="field-long">
+                                       class="field-long" maxlength="15">
                             </td>
                             <td>Bairro:</td>
                             <td><input type="text" id="bairro" name="bairro" value="${user.bairro}"></td>
@@ -74,8 +74,8 @@
                         </tr>
                         <tr>
                             <td>Senha:</td>
-                            <td><input type="password" id="senha" name="senha" value="${user.senha}" class="field-long">
-                            </td>
+                            <td><input type="password" id="senha" name="senha" maxlength="8"
+                                       value="${user.senha}" class="field-long"></td>
                             <td>Estado:</td>
                             <td><input type="text" id="uf" name="uf" size="5" value="${user.uf}"></td>
                         </tr>
@@ -153,10 +153,10 @@
             <!-- inicio veirficação se exixte Doc ou nao. e colocar img Doc padrao -->
             <c:if test="${user.docBase64.isEmpty() ==  false}">
             <td><a href="salvarUsuario?acao=download&tipo=curriculo&user=${user.id}"
-                   title="Curriculo"><img alt="imagem User" src="img/arquivo.png.png"  width="50px" height="50px"/> </a></td>
+                   title="Curriculo"><img alt="Curriculo " src="img/arquivo.png"  width="50px" height="50px"/> </a></td>
             </c:if>
             <c:if test="${user.docBase64.isEmpty() == true}">
-                <td><img alt="Doc User" src="img/arquivo.png" width="50px" height="50px"/></td>
+                <td><img alt="Sem Arquivo" src="img/arquivo.png" width="50px" height="50px"/></td>
             </c:if>
             <!--fim -->
             <td><c:out value="${user.nome}"></c:out></td>

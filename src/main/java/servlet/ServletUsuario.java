@@ -27,8 +27,9 @@ public class ServletUsuario extends HttpServlet {
             IOException {
         String acao = request.getParameter("acao");
         String user = request.getParameter("user");
+
         try {
-            if (acao.equalsIgnoreCase("delete")) {
+            if (acao != null && acao.equalsIgnoreCase("delete")) {
                 daoUsuario.delete(user);
                 request.setAttribute("msg2", "Cadastro Deletado!.");
                 RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
@@ -36,19 +37,19 @@ public class ServletUsuario extends HttpServlet {
                 view.forward(request, response); // --> para fazer o redirecionamento na tela ficar na mesma tela cadastro
 
 
-            } else if (acao.equalsIgnoreCase("editar")) {
+            } else if (acao != null && acao.equalsIgnoreCase("editar")) {
 
                 UsuarioBean usuarioBean = daoUsuario.consultar(user); // consulta usuario para deletar, passando o objeto
                 RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
                 request.setAttribute("user", usuarioBean);
                 view.forward(request, response); // -->
 
-            } else if (acao.equalsIgnoreCase("listarTodos")) {
+            } else if (acao != null && acao.equalsIgnoreCase("listarTodos")) {
                 RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
                 request.setAttribute("usuarios", daoUsuario.listar());
                 view.forward(request, response); // --> para fazer o redirecionamento na tela
 
-            } else if (acao.equalsIgnoreCase("download")) { //converte a base64 a img do banco bytes.p/ baixar o arquivo para o pc"fazer o download"
+            } else if (acao != null && acao.equalsIgnoreCase("download")) { //converte a base64 a img do banco bytes.p/ baixar o arquivo para o pc"fazer o download"
                 UsuarioBean usuarioBean = daoUsuario.consultar(user);
                 if (usuarioBean != null) {
 
@@ -80,9 +81,11 @@ public class ServletUsuario extends HttpServlet {
                     }
                     os.flush();
                     os.close();
-
-
                 }
+            }else {
+                RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
+                request.setAttribute("usuarios", daoUsuario.listar());
+                view.forward(request, response);
             }
         } catch (SQLException e) {
             e.printStackTrace();

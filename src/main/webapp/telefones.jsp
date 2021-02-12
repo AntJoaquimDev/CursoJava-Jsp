@@ -21,11 +21,11 @@
 </head>
 <body>
 <a href="index.jsp">
-    <img src="img/logout-48.png" alt="Editar" width="50px" height="50px" title="Sair do Sistema-->"/>
+    <img src="img/logout-48.png" alt="Editar" width="30px" height="30px" title="Sair do Sistema-->"/>
 </a>
 <td></td>
 <a href="salvarUsuario?acao=listarTodos">
-    <img src="img/sair.png" alt="Editar" width="60px" height="40px" title="Voltar Para Tela Usuario-->"/>
+    <img src="img/sair.png" alt="Editar" width="45px" height="40px" title="Voltar Para Tela Usuario-->"/>
 </a>
 
 
@@ -37,7 +37,7 @@
             <h3 style="color: #ea100f">${msg} </h3>
             <h3 style="color: #29ee09">${msg2} </h3>
 
-            <form action="salvarTelefones" method="post" id="formfone" onsubmit="validarCampos()">
+            <form action="salvarTelefones" method="post" id="formfone" onsubmit="return validarCampos()?true :false;">
                 <ul class="form-style-1">
 
                     <table>
@@ -51,19 +51,24 @@
                         </tr>
                         <tr>
                             <td>Número:</td>
-                            <td><input type="text" id="numero" name="numero" class="field-long"
-                                 placeholder="Digite o Telefone " ></td>
-                            <td><select id="tipo" name="tipo">
+                            <td><input type="textt" id="numero" name="numero" class="field-long"
+                                 placeholder="Digite o Telefone " maxlength="15" ></td>
+                            <td><select id="tipo" name="tipo" style="width: 173px;">
                                 <option>Casa</option>
                                 <option>Trabalho</option>
                                 <option>Celular</option>
+                                <option>Outros</option>
                             </select></td>
                         </tr>
                         <td></td>
                         <tr>
                             <td></td>
-                            <td><input type="submit" value="Salvar ">
+                            <td><input type="submit" value="Salvar" style="background-color: #29ee09">
 
+                            <td>
+                                <a href="salvarUsuario?acao=listarTodos">
+                                <img src="img/logout-48.png" alt="Editar" width="45px" height="30px" title="Voltar Para Tela Usuario-->"/>
+                                </a></td>
                         </tr>
                     </table>
                 </ul>
@@ -80,7 +85,7 @@
     <tr class="w3-green">
         <th>Codigo</th>
         <th>Numero</th>
-        <th>Tipoo</th>
+        <th>Tipo</th>
         <th>Excluir</th>
     </tr>
     </thead>
@@ -104,7 +109,7 @@
 <script type="text/javascript">
     function validarCampos() {
         if (document.getElementById("numero").value == '') {
-            alert('Informe o Nome:');
+            alert('Informe o Número do Telefone :');
             return false;
         }
 

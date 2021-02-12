@@ -38,5 +38,10 @@ public class ProdutoBean {
     public void setValor(double valor) {
         this.valor = valor;
     }
+
+    public String getValorEmTxt(){
+        return Double.toString(valor).replace('.',',');
+
+    }
 }
 
