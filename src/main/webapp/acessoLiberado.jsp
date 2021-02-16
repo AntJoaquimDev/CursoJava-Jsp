@@ -6,20 +6,33 @@
 <head>
     <title>recebendo nome</title>
 </head>
-<body >
-
-<h1>Acesso liberado para seu Usuario</h1>
-<h2>Seja benvindo ao Sistema JSP</h2>
-
+<body>
+<center style="padding-top: 10%;">
+    <h1>Acesso liberado para seu Usuario</h1>
+    <h2>Seja benvindo ao Sistema JSP</h2>
+</center>
 <br/>
-<tr>
-<a href="salvarUsuario?acao=listarTodos">
-<img src="img/user.png" alt="Editar" width="120px" height="120px" title="Cadastro de Usuário -->"/>
-</a>
-    <a href="salvarProduto?acao=listarTodos">
-        <img src="img/carrinho.png" alt="Editar" width="120px" height="120px" title="Cadastro de Produto -->"/>
-    </a>
-</tr>
+<center>
+    <table>
+        <tr>
+            <td>
+                <a href="salvarUsuario?acao=listarTodos">
+                    <img src="img/user.png" width="100px" height="100px" title="Cadastro de Usuário -->"/>
+                </a>
+            </td>
+            <td>
+                <a href="salvarProduto?acao=listarTodos">
+                    <img src="img/carrinho.png" width="100px" height="100px" title="Cadastro de Produto -->"/>
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td>Cad. Usúsario</td>
+            <td>Cad. Produto</td>
+        </tr>
+
+    </table>
+</center>
 </body>
 
 </html>

@@ -4,7 +4,6 @@ import bens.UsuarioBean;
 import dao.DaoUsuario;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.tomcat.util.codec.binary.Base64;
-import sun.awt.image.BufferedImageDevice;
 
 import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
@@ -87,7 +86,7 @@ public class ServletUsuario extends HttpServlet {
                     os.flush();
                     os.close();
                 }
-            }else {
+            } else {
                 RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
                 request.setAttribute("usuarios", daoUsuario.listar());
                 view.forward(request, response);
@@ -148,43 +147,34 @@ public class ServletUsuario extends HttpServlet {
                     Part imagemFoto = request.getPart("foto");
 
                     if (imagemFoto != null && imagemFoto.getInputStream().available() > 0) {
-                    //imagem normal
-
-
+                        //imagem normal
                         String fotoBase64 = new Base64().encodeBase64String(converteStremParabyte(imagemFoto.getInputStream()));
-
                         usuarioBean.setFotoBase64(fotoBase64);
                         usuarioBean.setContentType(imagemFoto.getContentType());
-
-                    //fim imagem normal
+                        //fim imagem normal
                         //transformar em um buffereredImagem decodificar
-
                         byte[] imageByteDecode = new Base64().decodeBase64(fotoBase64);
                         BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imageByteDecode));
 
-                        int type = bufferedImage.getType()==0 ? BufferedImage.TYPE_INT_ARGB: bufferedImage.getType();
+                        int type = bufferedImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : bufferedImage.getType();
                         //pegar o tipo da imagem
-                        BufferedImage resizedImage = new BufferedImage(100,100,type);
-                        Graphics2D graf =resizedImage.createGraphics();
-                        graf.drawImage(bufferedImage,0,0,100,100,null);
+                        BufferedImage resizedImage = new BufferedImage(100, 100, type);
+                        Graphics2D graf = resizedImage.createGraphics();
+                        graf.drawImage(bufferedImage, 0, 0, 100, 100, null);
                         graf.dispose();
                         /*Escrever a imagem novamente*/
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        ImageIO.write(resizedImage,"png",baos);
+                        ImageIO.write(resizedImage, "png", baos);
 
-
-                        String fotoMiniaturaBase64 = "data:image/png;base64,"+ DatatypeConverter.printBase64Binary(baos.toByteArray());
-
-                      usuarioBean.setFotoBase64Miniatura(fotoMiniaturaBase64);
                         /* Inicio conversao miniatura foto*/
-
-
+                        String fotoMiniaturaBase64 = "data:image/png;base64," + DatatypeConverter
+                                .printBase64Binary(baos.toByteArray());
+                        usuarioBean.setFotoBase64Miniatura(fotoMiniaturaBase64);
 
                         /* fim miniatura imagem*/
 
                     } else {//pegar foto temporaria
-                        usuarioBean.setFotoBase64(request.getParameter("fotoTemp64"));
-                        usuarioBean.setContentType(request.getParameter("contentTypeTemp"));
+                        usuarioBean.setAtualizarImagem(false);
                     }
                     //Processo PDF*/
                     Part documentoPdf = request.getPart("curriculo");
@@ -195,8 +185,7 @@ public class ServletUsuario extends HttpServlet {
                         usuarioBean.setContentTypeDoc(documentoPdf.getContentType());
 
                     } else {//pegar doc temporario
-                        usuarioBean.setDocBase64(request.getParameter("docTemp64"));
-                        usuarioBean.setContentTypeDoc(request.getParameter("contentTypeDocTemp"));
+                        usuarioBean.setAtualizarDocPdf(false);
                     }
                 }
                 /* Fim upload*/
@@ -229,7 +218,7 @@ public class ServletUsuario extends HttpServlet {
                 } else if (id == null || id.isEmpty()
                         && !daoUsuario.validarSenha(senha)) {// QUANDO FOR
                     // USUÁRIO NOVO
-                    msg = "\n A senha já existe para outro usuário!";
+                    msg = "A senha já existe para outro usuário!";
                     podeInserir = false;
                 }
 
@@ -251,7 +240,7 @@ public class ServletUsuario extends HttpServlet {
                 RequestDispatcher view = request
                         .getRequestDispatcher("/cadastroUsuario.jsp");
                 request.setAttribute("usuarios", daoUsuario.listar());
-                request.setAttribute("msg", "Salvo com Sucesso");
+                request.setAttribute("msg", msg);
                 view.forward(request, response);
 
             } catch (Exception e) {

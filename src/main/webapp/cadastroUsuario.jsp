@@ -17,14 +17,14 @@
     <title>Cadastro de Usuário</title>
 </head>
 <body>
-<a href="index.jsp">
-    <img src="img/logout-48.png" alt="Editar" width="30px" height="30px" title="Sair do Sistema-->"/>
-</a>
-<td></td>
-<a href="acessoLiberado.jsp">
-    <img src="img/sair.png" alt="Editar" width="45px" height="40px" title="Voltar Para inicio-->"/>
-</a>
 
+    <a href="index.jsp">
+        <img src="img/fechar.ico" alt="Sair" width="40px" height="40px" title="Sair do Sistema-->"/>
+    </a>
+    <td></td>
+    <a href="acessoLiberado.jsp">
+        <img src="img/logout-48.png" alt="Editar" width="35px" height="35px" title="Voltar Para inicio-->"/>
+    </a>
 
 <center><h1>Cadastro de Usuário</h1></center>
 <center>
@@ -54,8 +54,7 @@
                             <td><input type="text" id="nome" name="nome" value="${user.nome}">
                             </td>
                             <td>Rua:</td>
-                            <td><input type="text" id="rua" name="rua" placeholder="Digite seu Nome "
-                                       value="${user.rua}"></td>
+                            <td><input type="text" id="rua" name="rua" value="${user.rua}"></td>
                         </tr>
                         <tr>
                             <td>Telefone:</td>
@@ -82,20 +81,13 @@
                         <tr>
                             <td>Foto:</td>
                             <td><input type="file" name="foto">
-                                <input type="text" style="display: none" name="fotoTemp64" readonly="readonly"
-                                       value="${user.fotoBase64}">
-                                <input type="text" style="display: none" name="contentTypeTemp" redonly="readonly"
-                                       value="${user.contentType}">
+
                             </td>
                         </tr>
                         <tr>
                             <td>Curriculo:</td>
 
-                            <td><input type="file" name="curriculo">
-                                <input type="text" style="display: none" name="docTemp64" readonly="readonly"
-                                       value="${user.docBase64}"></td>
-                            <td><input type="text" style="display: none" name="contentTypeDocTemp" readonly="readonly"
-                                    value="${user.contentTypeDoc}"></td>
+                            <td><input type="file" name="curriculo">  </td>
                         </tr>
 
                         <tr>
@@ -115,7 +107,7 @@
 <table class="w3-table-all">
 
     <thead>
-    <caption><h2>Usuários cadastrados no Sistema</h2></caption>
+    <caption><h2>Lista de Usuários</h2></caption>
     <tr class="w3-green">
         <th>Codigo</th>
         <th>*=*=*=*</th>
@@ -145,7 +137,7 @@
                 <td><a href="salvarUsuario?acao=download&tipo=imagem&user=${user.id}">
                     <img src='<c:out value="${user.fotoBase64Miniatura}"/>' width="50px" height="50px"/></a></td>
             </c:if>
-            <c:if test="${user.fotoBase64Miniatura.isEmpty() == true}">
+            <c:if test="${user.fotoBase64Miniatura == null}">
                 <td><img alt="imagem User" src="img/user.png"  width="50px" height="50px"/></td>
             </c:if>
             <!--fim -->
@@ -155,7 +147,7 @@
             <td><a href="salvarUsuario?acao=download&tipo=curriculo&user=${user.id}"
                    title="Curriculo"><img alt="Curriculo " src="img/arquivo.png"  width="50px" height="50px"/> </a></td>
             </c:if>
-            <c:if test="${user.docBase64.isEmpty() == true}">
+            <c:if test="${user.docBase64 == null}">
                 <td><img alt="Sem Arquivo" src="img/arquivo.png" width="50px" height="50px"/></td>
             </c:if>
             <!--fim -->

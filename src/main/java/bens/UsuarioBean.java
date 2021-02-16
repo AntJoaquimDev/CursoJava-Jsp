@@ -18,6 +18,24 @@ public class UsuarioBean {
     private String contentTypeDoc;
     private String tempFileUser;
 
+    private boolean atualizarImagem =true;
+    private boolean atualizarDocPdf = true;
+
+    public boolean isAtualizarImagem() {
+        return atualizarImagem;
+    }
+
+    public void setAtualizarImagem(boolean atualizarImagem) {
+        this.atualizarImagem = atualizarImagem;
+    }
+
+    public boolean isAtualizarDocPdf() {
+        return atualizarDocPdf;
+    }
+
+    public void setAtualizarDocPdf(boolean atualizarDocPdf) {
+        this.atualizarDocPdf = atualizarDocPdf;
+    }
 
     public String getTempFileUser() {
         tempFileUser = "data:" + contentType + ";base64," + fotoBase64;

@@ -19,13 +19,15 @@
     <title>Cadastro de Produto</title>
 </head>
 <body>
-<a href="acessoLiberado.jsp">
-    <img src="img/sair.png" alt="Editar" width="50px" height="50px" title="Voltar Para inicio-->"/>
+
+<a href="index.jsp">
+    <img src="img/fechar.ico" alt="Sair" width="40px" height="40px" title="Sair do Sistema-->"/>
 </a>
 <td></td>
-<a href="index.jsp">
-    <img src="img/logout-48.png" alt="Editar" width="50px" height="50px" title="Sair do Sistema-->"/>
+<a href="acessoLiberado.jsp">
+    <img src="img/logout-48.png" alt="Editar" width="35px" height="35px" title="Voltar Para inicio-->"/>
 </a>
+
 <center><h1>Cadastro de Produtos</h1></center>
 <center>
     <div class="login-page">
@@ -73,7 +75,7 @@
 </center>
 <table class="w3-table-all">
     <thead>
-    <caption><h2>Usuários cadastrados no Sistema</h2></caption>
+    <caption><h2>Lista de Produtos </h2></caption>
     <tr class="w3-green">
         <th>Codigo</th>
         <th>Produto</th>
