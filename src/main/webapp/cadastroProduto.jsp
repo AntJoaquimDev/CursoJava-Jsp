@@ -102,7 +102,7 @@
 
 
 
-            <td><a href="salvarProduto?acao=delete&produto=${produto.id}">
+            <td><a href="salvarProduto?acao=delete&produto=${produto.id}" onclick="return confirm('Confirma a Exclusão?')">
                 <img src="img/delete.png" alt="Excluir" width="20px" height="20px" title="Excluir"/></a></td>
 
             <td><a href="salvarProduto?acao=editar&produto=${produto.id}">
@@ -129,5 +129,11 @@
         $('#valor').maskMoney();
     })
 
+
+    $(document).ready(function () {
+       $('#qtd').keyup(function (){
+            $('#qtd').val(this.value.match(/[0-9]*/));
+        });
+    });
 </script>
 </html>

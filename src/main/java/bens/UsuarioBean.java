@@ -17,6 +17,7 @@ public class UsuarioBean {
     private String docBase64;
     private String contentTypeDoc;
     private String tempFileUser;
+    private boolean ativo;
 
     private boolean atualizarImagem =true;
     private boolean atualizarDocPdf = true;
@@ -164,5 +165,13 @@ public class UsuarioBean {
 
     public void setContentTypeDoc(String contentTypeDoc) {
         this.contentTypeDoc = contentTypeDoc;
+    }
+
+    public boolean isAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
     }
 }

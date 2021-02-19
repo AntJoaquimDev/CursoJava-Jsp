@@ -7,6 +7,13 @@
     <title>recebendo nome</title>
 </head>
 <body>
+<a href="index.jsp">
+    <img src="img/fechar.ico" alt="Sair" width="40px" height="40px" title="Sair do Sistema-->"/>
+</a>
+<td></td>
+<a href="acessoLiberado.jsp">
+    <img src="img/logout-48.png" alt="Editar" width="35px" height="35px" title="Voltar Para inicio-->"/>
+</a>
 <center style="padding-top: 10%;">
     <h1>Acesso liberado para seu Usuario</h1>
     <h2>Seja benvindo ao Sistema JSP</h2>

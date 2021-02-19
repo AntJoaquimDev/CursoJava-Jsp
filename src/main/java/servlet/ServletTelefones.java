@@ -26,28 +26,36 @@ public class ServletTelefones extends HttpServlet {
 
         try {
             String acao = request.getParameter("acao");
-            if (acao.endsWith("addFone")) {
-                String user = request.getParameter("user");
+            String user = request.getParameter("user");
+            if (user != null) {
 
-                UsuarioBean usuario = daoUsuario.consultar(user);
-                request.getSession().setAttribute("userEscolhido", usuario);
-                request.setAttribute("userEscolhido", usuario);
+                if (acao.endsWith("addFone")) {
+                    UsuarioBean usuario = daoUsuario.consultar(user);
 
-                RequestDispatcher view = request.getRequestDispatcher("/telefones.jsp");
-                request.setAttribute("telefones", daoTelefones.listar(usuario.getId()));
-                request.setAttribute("msg", "Salvo com Sucesso");
-                view.forward(request, response);
+                    request.getSession().setAttribute("userEscolhido", usuario);
+                    request.setAttribute("userEscolhido", usuario);
 
-            } else if (acao.endsWith("deleteFone")) { // remover telefone
-                String foneId = request.getParameter("foneId");
+                    RequestDispatcher view = request.getRequestDispatcher("/telefones.jsp");
+                    request.setAttribute("telefones", daoTelefones.listar(usuario.getId()));
+                    request.setAttribute("msg", "Salvo com Sucesso");
+                    view.forward(request, response);
 
-                daoTelefones.delete(foneId);
+                } else if (acao.endsWith("deleteFone")) { // remover telefone
+                    String foneId = request.getParameter("foneId");
 
-                UsuarioBean usuario = (UsuarioBean) request.getSession().getAttribute("userEscolhido");
+                    daoTelefones.delete(foneId);
+
+                    UsuarioBean usuario = (UsuarioBean) request.getSession().getAttribute("userEscolhido");
                     //recarregar os telefoes na tela
-                RequestDispatcher view = request.getRequestDispatcher("/telefones.jsp");
-                request.setAttribute("telefones", daoTelefones.listar(usuario.getId()));
-                request.setAttribute("msg", "Removido com Sucesso");
+                    RequestDispatcher view = request.getRequestDispatcher("/telefones.jsp");
+                    request.setAttribute("telefones", daoTelefones.listar(usuario.getId()));
+                    request.setAttribute("msg", "Removido com Sucesso");
+                    view.forward(request, response);
+                }
+            } else {
+                RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
+                request.setAttribute("usuarios", daoUsuario.listar());
+                request.setAttribute("msg", "");
                 view.forward(request, response);
             }
         } catch (SQLException e) {
@@ -80,7 +88,7 @@ public class ServletTelefones extends HttpServlet {
 
             view.forward(request, response);
 
-           } catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 

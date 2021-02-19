@@ -19,8 +19,9 @@ public class DaoUsuario {
 
     public void salvar(UsuarioBean usuario) {
 
-        String sql = "insert into usuario(nome,login,senha,telefone,cep,rua,bairro,cidade,uf,fotobase64,contenttype,docBase64,contenttypedoc,fotoBase64Miniatura) " +
-                "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into usuario(nome,login,senha,telefone,cep,rua,bairro,cidade,uf,fotobase64,contenttype," +
+                "docBase64,contenttypedoc,fotoBase64Miniatura,ativo) " +
+                "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         PreparedStatement insert = null;
         try {
@@ -39,6 +40,7 @@ public class DaoUsuario {
             insert.setString(12, usuario.getDocBase64());
             insert.setString(13, usuario.getContentTypeDoc());
             insert.setString(14, usuario.getFotoBase64Miniatura());
+            insert.setBoolean(15, usuario.isAtivo());
 
             insert.execute();
             connection.commit();
@@ -77,6 +79,7 @@ public class DaoUsuario {
             usuarioBean.setDocBase64(resultSet.getString("docbase64"));
             usuarioBean.setContentTypeDoc(resultSet.getString("contenttypedoc"));
             usuarioBean.setFotoBase64Miniatura(resultSet.getString("fotoBase64Miniatura"));
+            usuarioBean.setAtivo(resultSet.getBoolean("ativo"));
             listar.add(usuarioBean);
         }
         return listar;
@@ -127,6 +130,7 @@ public class DaoUsuario {
             usuarioBean.setDocBase64(resultSet.getString("docbase64"));
             usuarioBean.setContentTypeDoc(resultSet.getString("contenttypedoc"));
             usuarioBean.setFotoBase64Miniatura(resultSet.getString("fotoBase64Miniatura"));
+            usuarioBean.setAtivo(resultSet.getBoolean("ativo"));
 
             return usuarioBean;
         }
@@ -140,7 +144,7 @@ public class DaoUsuario {
             StringBuilder sql = new StringBuilder();
 
             sql.append(" update usuario set nome = ?,login = ?, senha = ? ,telefone= ? ");
-            sql.append(", cep = ?, rua = ?,bairro = ?,cidade = ?,uf = ? ");
+            sql.append(", cep = ?, rua = ?,bairro = ?,cidade = ?,uf = ?, ativo = ? ");
 
             if (usuarioBean.isAtualizarImagem()) {
                 sql.append(" ,fotobase64 = ?,contenttype = ? ");
@@ -164,26 +168,27 @@ public class DaoUsuario {
             statement.setString(7, usuarioBean.getBairro());
             statement.setString(8, usuarioBean.getCidade());
             statement.setString(9, usuarioBean.getUf());
+            statement.setBoolean(10,usuarioBean.isAtivo());
 
             if (usuarioBean.isAtualizarImagem()) {
-                statement.setString(10, usuarioBean.getFotoBase64());
-                statement.setString(11, usuarioBean.getContentType());
+                statement.setString(11, usuarioBean.getFotoBase64());
+                statement.setString(12, usuarioBean.getContentType());
             }
             if (usuarioBean.isAtualizarDocPdf()) {
                 if (usuarioBean.isAtualizarDocPdf() && !usuarioBean.isAtualizarImagem()) {
-                    statement.setString(10, usuarioBean.getDocBase64());
-                    statement.setString(11, usuarioBean.getContentTypeDoc());
+                    statement.setString(11, usuarioBean.getDocBase64());
+                    statement.setString(12, usuarioBean.getContentTypeDoc());
                 } else {
-                    statement.setString(12, usuarioBean.getDocBase64());
-                    statement.setString(13, usuarioBean.getContentTypeDoc());
+                    statement.setString(13, usuarioBean.getDocBase64());
+                    statement.setString(14, usuarioBean.getContentTypeDoc());
                 }
             } else {
                 if (usuarioBean.isAtualizarImagem()) {
-                    statement.setString(12, usuarioBean.getFotoBase64Miniatura());
+                    statement.setString(13, usuarioBean.getFotoBase64Miniatura());
                 }
             }
             if ( usuarioBean.isAtualizarImagem() && usuarioBean.isAtualizarDocPdf() ) {
-                statement.setString(14, usuarioBean.getFotoBase64Miniatura());
+                statement.setString(15, usuarioBean.getFotoBase64Miniatura());
             }
             statement.executeUpdate();
             connection.commit();
@@ -217,21 +222,6 @@ public class DaoUsuario {
         return false;
     }
 
-
-   /*
-    public void ValidarInserir(String nome,String login,String senha){
-        if(nome == null || nome.isEmpty() || login == null || login.isEmpty() || senha == null || senha.isEmpty()){
-String sql = "select count(1) as qtd from usuario where login = '" + login + "' and id <> " + id;
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if (resultSet.next()) {
-            return resultSet.getInt("qtd") <= 0;
-        }
-        return false;
-    }
-        }
-
-*/
 
 //parfa validar atualizar com mesmo loguin e mesmo id
 

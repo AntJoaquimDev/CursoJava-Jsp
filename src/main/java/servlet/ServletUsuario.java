@@ -125,6 +125,8 @@ public class ServletUsuario extends HttpServlet {
             String bairro = request.getParameter("bairro");
             String cidade = request.getParameter("cidade");
             String uf = request.getParameter("uf");
+
+            //System.out.println(request.getParameter("ativo"));
             // String fotobase64 = request.getParameter("fotobase64");
             //  String contenttype = request.getParameter("contenttype");
 
@@ -141,6 +143,12 @@ public class ServletUsuario extends HttpServlet {
             usuarioBean.setCidade(cidade);
             usuarioBean.setUf(uf);
 
+            if(request.getParameter("ativo") !=null
+                    && request.getParameter("ativo").equalsIgnoreCase("on")){
+                usuarioBean.setAtivo(true);
+            }else {
+                usuarioBean.setAtivo(false);
+            }
             try {
                 /*Inicio upload  File de imagens e pdf */
                 if (ServletFileUpload.isMultipartContent(request)) {
@@ -237,8 +245,7 @@ public class ServletUsuario extends HttpServlet {
                     request.setAttribute("user", usuarioBean);
                 }
 
-                RequestDispatcher view = request
-                        .getRequestDispatcher("/cadastroUsuario.jsp");
+                RequestDispatcher view = request.getRequestDispatcher("/cadastroUsuario.jsp");
                 request.setAttribute("usuarios", daoUsuario.listar());
                 request.setAttribute("msg", msg);
                 view.forward(request, response);

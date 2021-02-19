@@ -81,7 +81,7 @@
 <table class="w3-table-all">
 
     <thead>
-    <caption><h2>Telefones cadastrados no Sistema</h2></caption>
+    <caption><h2>Lista de Telefones</h2></caption>
     <tr class="w3-green">
         <th>Codigo</th>
         <th>Numero</th>
@@ -100,7 +100,7 @@
             </td>
             <td><c:out value="${fone.tipo}"></c:out></td>
 
-            <td><a href="salvarTelefones?acao=deleteFone&foneId=${fone.id}">
+            <td><a href="salvarTelefones?acao=deleteFone&foneId=${fone.id}" onclick="return confirm('Confirma a Exclusão?')">
                 <img src="img/delete.png" alt="Excluir" width="20px" height="20px" title="Excluir"/></a></td>
         </tr>
     </c:forEach>

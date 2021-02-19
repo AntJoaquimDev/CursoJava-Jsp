@@ -1,3 +1,4 @@
+<%@ page import="bens.UsuarioBean" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -18,13 +19,13 @@
 </head>
 <body>
 
-    <a href="index.jsp">
-        <img src="img/fechar.ico" alt="Sair" width="40px" height="40px" title="Sair do Sistema-->"/>
-    </a>
-    <td></td>
-    <a href="acessoLiberado.jsp">
-        <img src="img/logout-48.png" alt="Editar" width="35px" height="35px" title="Voltar Para inicio-->"/>
-    </a>
+<a href="index.jsp">
+    <img src="img/fechar.ico" alt="Sair" width="40px" height="40px" title="Sair do Sistema-->"/>
+</a>
+<td></td>
+<a href="acessoLiberado.jsp">
+    <img src="img/logout-48.png" alt="Editar" width="35px" height="35px" title="Voltar Para inicio-->"/>
+</a>
 
 <center><h1>Cadastro de Usuário</h1></center>
 <center>
@@ -80,14 +81,24 @@
                         </tr>
                         <tr>
                             <td>Foto:</td>
-                            <td><input type="file" name="foto">
+                            <td><input type="file" name="foto"></td>
 
-                            </td>
+                            <td>Ativos:</td>
+                            <td><input type="checkbox" id="ativo" name="ativo"
+                                <%
+                                  if(request.getAttribute("user") !=null){
+                                      UsuarioBean usuario = (UsuarioBean) request.getAttribute("user");
+                                      if(usuario.isAtivo()){
+                                          out.print("checked =\"checked\"");
+                                      }
+                                  }
+                                %>
+                            ></td>
                         </tr>
                         <tr>
                             <td>Curriculo:</td>
 
-                            <td><input type="file" name="curriculo">  </td>
+                            <td><input type="file" name="curriculo"></td>
                         </tr>
 
                         <tr>
@@ -138,14 +149,15 @@
                     <img src='<c:out value="${user.fotoBase64Miniatura}"/>' width="50px" height="50px"/></a></td>
             </c:if>
             <c:if test="${user.fotoBase64Miniatura == null}">
-                <td><img alt="imagem User" src="img/user.png"  width="50px" height="50px"/></td>
+                <td><img alt="imagem User" src="img/user.png" width="50px" height="50px"/></td>
             </c:if>
             <!--fim -->
 
             <!-- inicio veirficação se exixte Doc ou nao. e colocar img Doc padrao -->
             <c:if test="${user.docBase64.isEmpty() ==  false}">
-            <td><a href="salvarUsuario?acao=download&tipo=curriculo&user=${user.id}"
-                   title="Curriculo"><img alt="Curriculo " src="img/arquivo.png"  width="50px" height="50px"/> </a></td>
+                <td><a href="salvarUsuario?acao=download&tipo=curriculo&user=${user.id}"
+                       title="Curriculo"><img alt="Curriculo " src="img/arquivo.png" width="50px" height="50px"/> </a>
+                </td>
             </c:if>
             <c:if test="${user.docBase64 == null}">
                 <td><img alt="Sem Arquivo" src="img/arquivo.png" width="50px" height="50px"/></td>
@@ -168,7 +180,7 @@
             <td><a href="salvarTelefones?acao=addFone&user=${user.id}">
                 <img src="img/fone.png" alt="Telefone" width="20px" height="20px" title="Telefone"/></a></td>
 
-            <td><a href="salvarUsuario?acao=delete&user=${user.id}">
+            <td><a href="salvarUsuario?acao=delete&user=${user.id}" onclick="return confirm('Confirma a Exclusão ?')">
                 <img src="img/delete.png" alt="Excluir" width="20px" height="20px" title="Excluir"/></a></td>
 
             <td><a href="salvarUsuario?acao=editar&user=${user.id}">
